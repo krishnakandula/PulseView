@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PulseView">
-        <attr name="circleColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="edgeRadius" format="float"/>
+        <attr name="edgeWidth" format="float"/>
+        <attr name="gridColor" format="color"/>
     </declare-styleable>
 </resources>
