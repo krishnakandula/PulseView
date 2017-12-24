@@ -4,15 +4,15 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
 
-private const val DEFAULT_HORIZONTAL_LINES: Int = 7
-private const val DEFAULT_VERTICAL_LINES = DEFAULT_HORIZONTAL_LINES * 2
-private const val DEFAULT_GRID_COLOR = Color.WHITE
-
 internal class Grid(val horizontalLines: Int,
                     val verticalLines: Int,
                     val color: Int) {
 
     companion object {
+
+        internal const val DEFAULT_HORIZONTAL_LINES: Int = 7
+        internal const val DEFAULT_VERTICAL_LINES = DEFAULT_HORIZONTAL_LINES
+        private const val DEFAULT_GRID_COLOR = Color.WHITE
 
         fun from(typedAttrs: TypedArray): Grid {
             return Grid(DEFAULT_HORIZONTAL_LINES,
