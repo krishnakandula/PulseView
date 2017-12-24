@@ -15,12 +15,7 @@ data class Sheet(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
         taps[y][x] = false
     }
 
-    fun getPointIndices(x: Float,
-                        y: Float,
-                        left: Int,
-                        top: Int,
-                        right: Int,
-                        bottom: Int): Pair<Int, Int> {
+    internal fun getPointIndices(x: Float, y: Float, left: Int, top: Int, right: Int, bottom: Int): Pair<Int, Int> {
 
         val offsets = getPointOffsets(left, top, right, bottom)
         val xIndex = Math.floor(x / offsets.first.toDouble()).toInt()
@@ -29,7 +24,7 @@ data class Sheet(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
         return Pair(xIndex, yIndex)
     }
 
-    fun getPointOffsets(left: Int, top: Int, right: Int, bottom: Int): Pair<Float, Float> {
+    internal fun getPointOffsets(left: Int, top: Int, right: Int, bottom: Int): Pair<Float, Float> {
 
         val hOffset: Float = Math.abs(right - left) / verticalLines.toFloat()
         val vOffset = Math.abs(bottom - top) / horizontalLines.toFloat()
