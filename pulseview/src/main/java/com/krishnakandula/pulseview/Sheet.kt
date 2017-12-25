@@ -1,5 +1,7 @@
 package com.krishnakandula.pulseview
 
+import com.krishnakandula.pulseview.grid.Grid
+
 data class Sheet(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
                  val verticalLines: Int = Grid.DEFAULT_VERTICAL_LINES) {
 
@@ -26,8 +28,8 @@ data class Sheet(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
 
     internal fun getPointOffsets(left: Int, top: Int, right: Int, bottom: Int): Pair<Float, Float> {
 
-        val hOffset: Float = Math.abs(right - left) / verticalLines.toFloat()
-        val vOffset = Math.abs(bottom - top) / horizontalLines.toFloat()
+        val hOffset: Float = Math.abs(right - left) / (verticalLines.toFloat() - 1)
+        val vOffset = Math.abs(bottom - top) / (horizontalLines.toFloat() - 1)
 
         return Pair(hOffset, vOffset)
     }

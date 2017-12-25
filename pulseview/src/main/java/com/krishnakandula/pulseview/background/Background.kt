@@ -1,21 +1,27 @@
-package com.krishnakandula.pulseview
+package com.krishnakandula.pulseview.background
 
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
+import com.krishnakandula.pulseview.R
+import com.krishnakandula.pulseview.toPx
 
-internal class Background(var edgeRadius: Float,
-                          var edgeWidth: Float,
-                          var style: Paint.Style,
-                          var color: Int) {
+internal class Background(val edgeRadius: Float,
+                          val edgeWidth: Float,
+                          val style: Paint.Style,
+                          val color: Int) {
+
+    val rect = Rect()
+    val manager = BackgroundDrawManager()
 
     companion object {
         private val DEFAULT_EDGE_RADIUS: Float = 16.toPx()
         private val DEFAULT_EDGE_WIDTH: Float = 5.toPx()
         private val DEFAULT_BACKGROUND_COLOR: Int = Color.parseColor("#e6e6e6")
 
-        val minWidth: Float = 320.toPx()
-        val minHeight: Float = 320.toPx()
+        val minWidth: Float = 250.toPx()
+        val minHeight: Float = 250.toPx()
 
         fun from(typedAttrs: TypedArray): Background {
             return Background(typedAttrs.getFloat(R.styleable.PulseView_edgeRadius, DEFAULT_EDGE_RADIUS),
@@ -25,7 +31,6 @@ internal class Background(var edgeRadius: Float,
         }
 
     }
-
 }
 
 internal fun Paint.from(background: Background): Paint {
