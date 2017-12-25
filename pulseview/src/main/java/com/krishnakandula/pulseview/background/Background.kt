@@ -13,10 +13,10 @@ internal class Background(val edgeRadius: Float,
                           val color: Int) {
 
     val rect = Rect()
-    val manager = BackgroundDrawManager()
+    val paint = Paint().from(this)
 
     companion object {
-        private val DEFAULT_EDGE_RADIUS: Float = 16.toPx()
+        val DEFAULT_EDGE_RADIUS: Float = 16.toPx()
         private val DEFAULT_EDGE_WIDTH: Float = 5.toPx()
         private val DEFAULT_BACKGROUND_COLOR: Int = Color.parseColor("#e6e6e6")
 

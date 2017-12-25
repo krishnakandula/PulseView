@@ -1,10 +1,9 @@
 package com.krishnakandula.pulseview.background
 
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import com.krishnakandula.pulseview.toRectF
 
-internal class BackgroundDrawManager {
+internal class BackgroundDrawManager(val background: Background) {
 
     fun getBackgroundBottom(windowBottom: Int, bottomMargin: Int, topMargin: Int, lineTabHeight: Int): Int {
         return windowBottom - (bottomMargin + topMargin) - lineTabHeight
@@ -14,7 +13,7 @@ internal class BackgroundDrawManager {
         return windowRight - (rightMargin + leftMargin)
     }
 
-    fun draw(canvas: Canvas, rect: Rect, paint: Paint) {
-
+    fun draw(canvas: Canvas) {
+        canvas.drawRoundRect(background.rect.toRectF(), background.edgeRadius, background.edgeRadius, background.paint)
     }
 }
