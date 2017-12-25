@@ -1,4 +1,4 @@
-package com.krishnakandula.pulseview
+package com.krishnakandula.pulseview.util
 
 import android.graphics.Rect
 import android.graphics.RectF

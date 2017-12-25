@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import com.krishnakandula.pulseview.background.Background
-import com.krishnakandula.pulseview.toPx
+import com.krishnakandula.pulseview.util.toPx
 
 internal class LineTab(val edgeRadius: Float,
                        val lineWidth: Float,

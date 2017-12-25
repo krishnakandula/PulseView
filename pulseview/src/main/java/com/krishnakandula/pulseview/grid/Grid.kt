@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import com.krishnakandula.pulseview.R
-import com.krishnakandula.pulseview.toPx
+import com.krishnakandula.pulseview.util.toPx
 
 internal class Grid(val horizontalLines: Int,
                     val verticalLines: Int,

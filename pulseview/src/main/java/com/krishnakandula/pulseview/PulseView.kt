@@ -16,6 +16,7 @@ import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
 import com.krishnakandula.pulseview.linetab.LineTab
 import com.krishnakandula.pulseview.linetab.LineTabManager
+import com.krishnakandula.pulseview.util.toPx
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
