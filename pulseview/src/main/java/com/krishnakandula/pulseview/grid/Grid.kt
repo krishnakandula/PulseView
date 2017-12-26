@@ -17,9 +17,9 @@ internal class Grid(val horizontalLines: Int,
 
     companion object {
 
-        const val DEFAULT_HORIZONTAL_LINES: Int = 8
+        const val DEFAULT_HORIZONTAL_LINES: Int = 9
         const val DEFAULT_VERTICAL_LINES = DEFAULT_HORIZONTAL_LINES
-        private const val DEFAULT_GRID_COLOR = Color.WHITE
+        private const val DEFAULT_GRID_COLOR = Color.CYAN
         private val DEFAULT_POINT_RADIUS = 5.toPx()
         val GRID_BACKGROUND_OFFSET = 3.toPx()
 
