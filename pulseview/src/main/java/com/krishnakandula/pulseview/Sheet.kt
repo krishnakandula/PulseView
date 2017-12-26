@@ -5,7 +5,7 @@ import com.krishnakandula.pulseview.grid.Grid
 data class Sheet(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
                  val verticalLines: Int = Grid.DEFAULT_VERTICAL_LINES) {
 
-    val taps: List<MutableList<Boolean>> = List(horizontalLines, { MutableList(verticalLines, { false }) })
+    val taps: List<MutableList<Boolean>> = List(horizontalLines + 1, { MutableList(verticalLines + 1, { false }) })
 
     fun checkPointExists(x: Int, y: Int): Boolean = taps[y][x]
 

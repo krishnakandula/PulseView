@@ -16,6 +16,7 @@ import com.krishnakandula.pulseview.linetab.LineTab
 import com.krishnakandula.pulseview.linetab.LineTabDrawManager
 import com.krishnakandula.pulseview.point.PointGrid
 import com.krishnakandula.pulseview.point.PointGridDrawManager
+import com.krishnakandula.pulseview.util.containsExclusive
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -97,8 +98,8 @@ class PulseView(context: Context,
 
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent?): Boolean {
-            if (e != null && pointGridManager.pointGrid.rect.contains(e.x.toInt(), e.y.toInt())) {
-                pointGridManager.onClick(e, sheet)
+            if (e != null && pointGridManager.pointGrid.rect.containsExclusive(e.x, e.y)) {
+                pointGridManager.onClick(e, sheet, { invalidate() })
             }
             return true
         }
