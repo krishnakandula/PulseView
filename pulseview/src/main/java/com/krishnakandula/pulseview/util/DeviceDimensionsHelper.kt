@@ -1,4 +1,4 @@
-package com.krishnakandula.pulseview
+package com.krishnakandula.pulseview.util
 
 import android.content.Context
 import android.content.res.Resources

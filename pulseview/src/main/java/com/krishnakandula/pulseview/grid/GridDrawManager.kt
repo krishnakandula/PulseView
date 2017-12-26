@@ -2,7 +2,7 @@ package com.krishnakandula.pulseview.grid
 
 import android.graphics.Canvas
 import com.krishnakandula.pulseview.Sheet
-import com.krishnakandula.pulseview.toPx
+import com.krishnakandula.pulseview.util.toPx
 
 internal class GridDrawManager(val grid: Grid) {
 

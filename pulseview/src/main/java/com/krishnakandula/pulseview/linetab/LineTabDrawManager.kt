@@ -1,7 +1,7 @@
 package com.krishnakandula.pulseview.linetab
 
 import android.graphics.Canvas
-import com.krishnakandula.pulseview.toRectF
+import com.krishnakandula.pulseview.util.toRectF
 
 internal class LineTabDrawManager(val lineTab: LineTab) {
 
