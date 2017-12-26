@@ -6,10 +6,9 @@ import com.krishnakandula.pulseview.toPx
 
 internal class GridDrawManager(val grid: Grid) {
 
-    fun draw(canvas: Canvas, sheet: Sheet) {
+    fun draw(canvas: Canvas) {
         drawVerticalLines(canvas)
         drawHorizontalLines(canvas)
-        drawPoints(canvas, sheet)
     }
 
     private fun drawVerticalLines(canvas: Canvas) {
@@ -44,18 +43,5 @@ internal class GridDrawManager(val grid: Grid) {
         }
 
         canvas.drawLines(points, grid.paint)
-    }
-
-    private fun drawPoints(canvas: Canvas, sheet: Sheet) {
-        val vOffset = grid.rect.height() / grid.horizontalLines.toFloat()
-        val hOffset = grid.rect.width() / grid.verticalLines.toFloat()
-        for (y in 0 until sheet.taps.size) {
-            val row = sheet.taps[y]
-            val yPosition = (y * vOffset) + (vOffset / 2)
-            (0 until row.size)
-                    .filter { sheet.taps[y][it] }
-                    .map { (it * hOffset) + (hOffset / 2) }
-                    .forEach { xPosition -> canvas.drawCircle(xPosition, yPosition, grid.pointRadius, grid.paint) }
-        }
     }
 }
