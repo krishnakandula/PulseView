@@ -71,10 +71,10 @@ class PulseView(context: Context,
     }
 
     private fun setGridMeasurements() {
-        gridManager.grid.rect.left = backgroundManager.background.rect.left + Grid.GRID_BACKGROUND_OFFSET.toInt()
-        gridManager.grid.rect.top = backgroundManager.background.rect.top + Grid.GRID_BACKGROUND_OFFSET.toInt()
-        gridManager.grid.rect.right = backgroundManager.background.rect.right - Grid.GRID_BACKGROUND_OFFSET.toInt()
-        gridManager.grid.rect.bottom = backgroundManager.background.rect.bottom - Grid.GRID_BACKGROUND_OFFSET.toInt()
+        gridManager.grid.rect.left = backgroundManager.background.rect.left
+        gridManager.grid.rect.top = backgroundManager.background.rect.top
+        gridManager.grid.rect.right = backgroundManager.background.rect.right
+        gridManager.grid.rect.bottom = backgroundManager.background.rect.bottom
     }
 
     private fun setLineTabMeasurements() {
@@ -85,10 +85,10 @@ class PulseView(context: Context,
     }
 
     private fun setPointGridMeasurements() {
-        pointGridManager.pointGrid.rect.left = backgroundManager.background.rect.left + Grid.GRID_BACKGROUND_OFFSET.toInt()
-        pointGridManager.pointGrid.rect.top = backgroundManager.background.rect.top + Grid.GRID_BACKGROUND_OFFSET.toInt()
-        pointGridManager.pointGrid.rect.right = backgroundManager.background.rect.right - Grid.GRID_BACKGROUND_OFFSET.toInt()
-        pointGridManager.pointGrid.rect.bottom = backgroundManager.background.rect.bottom - Grid.GRID_BACKGROUND_OFFSET.toInt()
+        pointGridManager.pointGrid.rect.left = backgroundManager.background.rect.left
+        pointGridManager.pointGrid.rect.top = backgroundManager.background.rect.top
+        pointGridManager.pointGrid.rect.right = backgroundManager.background.rect.right
+        pointGridManager.pointGrid.rect.bottom = backgroundManager.background.rect.bottom
     }
 
     private fun marginParams(): ViewGroup.MarginLayoutParams = layoutParams as ViewGroup.MarginLayoutParams

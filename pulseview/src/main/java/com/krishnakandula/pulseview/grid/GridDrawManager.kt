@@ -1,8 +1,6 @@
 package com.krishnakandula.pulseview.grid
 
 import android.graphics.Canvas
-import com.krishnakandula.pulseview.Sheet
-import com.krishnakandula.pulseview.util.toPx
 
 internal class GridDrawManager(val grid: Grid) {
 
@@ -14,8 +12,8 @@ internal class GridDrawManager(val grid: Grid) {
     private fun drawVerticalLines(canvas: Canvas) {
         val points = FloatArray(4 * grid.verticalLines)
 
-        val offset: Float = grid.rect.width() / (grid.verticalLines.toFloat() - 1)
-        var currentOffset: Float = 0f
+        val offset: Float = grid.rect.width() / (grid.verticalLines.toFloat() + 1)
+        var currentOffset: Float = grid.rect.left + offset
         var index = 0
         for (line in 0 until grid.verticalLines) {
             points[index++] = currentOffset
@@ -31,8 +29,8 @@ internal class GridDrawManager(val grid: Grid) {
     private fun drawHorizontalLines(canvas: Canvas) {
         val points = FloatArray(4 * grid.horizontalLines)
 
-        val offset: Float = grid.rect.height() / (grid.horizontalLines.toFloat() - 1)
-        var currentOffset: Float = offset
+        val offset: Float = grid.rect.height() / (grid.horizontalLines.toFloat() + 1)
+        var currentOffset: Float = grid.rect.top + offset
         var index = 0
         for (line in 0 until grid.horizontalLines) {
             points[index++] = grid.rect.left.toFloat()
