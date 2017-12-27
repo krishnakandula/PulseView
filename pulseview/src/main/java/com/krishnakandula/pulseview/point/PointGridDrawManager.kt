@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.view.MotionEvent
+import android.view.animation.AccelerateDecelerateInterpolator
 import com.krishnakandula.pulseview.Invalidator
 import com.krishnakandula.pulseview.Sheet
 
@@ -74,6 +75,7 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
             val animator = ValueAnimator()
             animator.setValues(propertyRadius)
             animator.duration = pointGrid.animationDuration.toLong() / 2
+            animator.interpolator = AccelerateDecelerateInterpolator()
             animator.addUpdateListener { animation ->
                 radii[index] = animation.getAnimatedValue(POINT_RADIUS_PROPERTY) as Float
                 invalidator.onInvalidate()
@@ -82,6 +84,7 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
             val animatorReverse = ValueAnimator()
             animatorReverse.setValues(propertyRadiusReverse)
             animatorReverse.duration = pointGrid.animationDuration.toLong() / 2
+            animatorReverse.interpolator = AccelerateDecelerateInterpolator()
             animatorReverse.addUpdateListener { animation ->
                 radii[index] = animation.getAnimatedValue(POINT_RADIUS_REVERSE_PROPERTY) as Float
                 invalidator.onInvalidate()

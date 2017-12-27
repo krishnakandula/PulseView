@@ -12,8 +12,6 @@ import com.krishnakandula.pulseview.background.Background
 import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
-import com.krishnakandula.pulseview.linetab.LineTab
-import com.krishnakandula.pulseview.linetab.LineTabDrawManager
 import com.krishnakandula.pulseview.point.PointGrid
 import com.krishnakandula.pulseview.point.PointGridDrawManager
 import com.krishnakandula.pulseview.util.containsExclusive
@@ -28,7 +26,6 @@ class PulseView(context: Context,
     private val typedAttrs: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.PulseView)
     private val backgroundManager = BackgroundDrawManager(Background.from(typedAttrs))
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
-    private val lineTabManager = LineTabDrawManager(LineTab.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
 
     private var sheet: Sheet = Sheet(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
@@ -51,11 +48,9 @@ class PulseView(context: Context,
     override fun onDraw(canvas: Canvas?) {
         if (canvas != null) {
             setBackgroundMeasurements()
-//            setLineTabMeasurements()
             setGridMeasurements()
             setPointGridMeasurements()
 
-//            lineTabManager.draw(canvas)
             backgroundManager.draw(canvas)
             gridManager.draw(canvas)
             pointGridManager.draw(canvas, sheet)
@@ -74,13 +69,6 @@ class PulseView(context: Context,
         gridManager.grid.rect.top = backgroundManager.background.rect.top
         gridManager.grid.rect.right = backgroundManager.background.rect.right
         gridManager.grid.rect.bottom = backgroundManager.background.rect.bottom
-    }
-
-    private fun setLineTabMeasurements() {
-        lineTabManager.lineTab.rect.left = backgroundManager.background.rect.left
-        lineTabManager.lineTab.rect.top = backgroundManager.background.rect.bottom - LineTab.HEIGHT_OFFSET.toInt()
-        lineTabManager.lineTab.rect.right = backgroundManager.background.rect.right
-        lineTabManager.lineTab.rect.bottom = lineTabManager.lineTab.rect.top + LineTab.HEIGHT.toInt() + LineTab.HEIGHT_OFFSET.toInt()
     }
 
     private fun setPointGridMeasurements() {
