@@ -22,7 +22,7 @@ internal class PointGrid(val horizontalLines: Int,
         private val DEFAULT_VERTICAL_LINES = Grid.DEFAULT_VERTICAL_LINES
         private val DEFAULT_COLOR = Color.MAGENTA
         private val DEFAULT_RADIUS = 3.toPx()
-        private val MAX_RADIUS = DEFAULT_RADIUS * 2
+        private val MAX_RADIUS = DEFAULT_RADIUS * 3
         private val DEFAULT_ANIM_DURATION = 500
         private val DEFAULT_STYLE = Paint.Style.FILL
 

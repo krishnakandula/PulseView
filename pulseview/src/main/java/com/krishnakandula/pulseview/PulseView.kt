@@ -3,6 +3,7 @@ package com.krishnakandula.pulseview
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
+import android.os.Process
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -92,8 +93,33 @@ class PulseView(context: Context,
         }
     })
 
-    fun startAnimation(row: Int) {
-        post { pointGridManager.startAnimation(row) }
+    fun startAnimation(col: Int) {
+        post { pointGridManager.startAnimation(col) }
+    }
+
+    fun startAnimations(vararg cols: Int) {
+        cols.forEach { startAnimation(it) }
+    }
+
+    fun startAnimationsWithDelay(vararg cols: Int, delay: Long) {
+        Thread {
+            cols.forEach {
+                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
+                startAnimation(it)
+                Thread.sleep(delay)
+            }
+        }.start()
+    }
+
+    fun startAnimationsInRangeWithDelay(start: Int, end: Int, delay: Long) {
+        if (start > end) return
+        Thread {
+            (start..end).forEach {
+                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
+                startAnimation(it)
+                Thread.sleep(delay)
+            }
+        }.start()
     }
 
     override fun onInvalidate() {

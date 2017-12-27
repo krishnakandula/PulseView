@@ -39,8 +39,8 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
         }
     }
 
-    fun startAnimation(row: Int) {
-        animators[row].start()
+    fun startAnimation(col: Int) {
+        animators[col].start()
     }
 
     fun onClick(e: MotionEvent, sheet: Sheet, onClickListener: () -> Unit) {

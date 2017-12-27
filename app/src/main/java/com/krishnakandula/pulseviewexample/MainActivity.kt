@@ -10,10 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.setOnClickListener { Thread(Runnable { (0..7).forEach {
-            i -> pulseview.startAnimation(i)
-            Thread.sleep(100)
-        } }).start() }
+        button.setOnClickListener { pulseview.startAnimationsInRangeWithDelay(0, 7, 50) }
 
     }
 }
