@@ -8,7 +8,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import com.krishnakandula.pulseview.background.Background
 import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
@@ -33,7 +32,6 @@ class PulseView(context: Context,
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
 
     private var sheet: Sheet = Sheet(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
-    private lateinit var animationManager: AnimationManager
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
