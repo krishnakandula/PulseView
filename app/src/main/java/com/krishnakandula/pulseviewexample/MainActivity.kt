@@ -1,4 +1,4 @@
-package com.krishnakandula.taptune
+package com.krishnakandula.pulseviewexample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,8 +10,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.setOnClickListener {
-            pulseview.startAnimation(0)
-            pulseview.startAnimation(3) }
+        button.setOnClickListener { Thread(Runnable { (0..7).forEach {
+            i -> pulseview.startAnimation(i)
+            Thread.sleep(100)
+        } }).start() }
+
     }
 }

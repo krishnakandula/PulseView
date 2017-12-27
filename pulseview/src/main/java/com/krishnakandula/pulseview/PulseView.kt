@@ -36,6 +36,7 @@ class PulseView(context: Context,
 
     fun setData(sheet: Sheet) {
         this.sheet = sheet
+        invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

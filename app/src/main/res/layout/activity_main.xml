@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.krishnakandula.taptune.MainActivity">
+    tools:context="com.krishnakandula.pulseviewexample.MainActivity">
 
     <com.krishnakandula.pulseview.PulseView
         android:id="@+id/pulseview"
