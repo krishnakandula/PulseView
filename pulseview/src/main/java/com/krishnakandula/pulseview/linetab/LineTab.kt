@@ -22,8 +22,8 @@ internal class LineTab(val edgeRadius: Float,
         private val DEFAULT_LINE_WIDTH = 3.toPx()
         private val DEFAULT_EDGE_RADIUS = Background.DEFAULT_EDGE_RADIUS
 
-        val HEIGHT = 40.toPx()
-        val HEIGHT_OFFSET = 40.toPx()
+        val HEIGHT = 0.toPx()
+        val HEIGHT_OFFSET = 0.toPx()
 
         fun from(typedAttrs: TypedArray): LineTab {
             return LineTab(DEFAULT_EDGE_RADIUS,

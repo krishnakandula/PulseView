@@ -1,10 +1,27 @@
 package com.krishnakandula.pulseview.point
 
+import android.animation.AnimatorSet
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.view.MotionEvent
+import com.krishnakandula.pulseview.Invalidator
 import com.krishnakandula.pulseview.Sheet
 
-internal class PointGridDrawManager(val pointGrid: PointGrid) {
+internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidator: Invalidator) {
+
+    private val animators: List<AnimatorSet> = List(pointGrid.verticalLines + 1, { AnimatorSet() })
+    private val radii: MutableList<Float> = MutableList(pointGrid.verticalLines + 1, { pointGrid.radius })
+
+    companion object {
+        private const val POINT_RADIUS_PROPERTY = "POINT_RADIUS_PROPERTY"
+        private const val POINT_RADIUS_REVERSE_PROPERTY = "POINT_RADIUS_REVERSE_PROPERTY"
+
+    }
+
+    init {
+        setupAnimators()
+    }
 
     fun draw(canvas: Canvas, sheet: Sheet) {
         val vOffset = pointGrid.rect.height() / (pointGrid.horizontalLines.toFloat() + 1)
@@ -12,11 +29,17 @@ internal class PointGridDrawManager(val pointGrid: PointGrid) {
         for (y in 0 until sheet.taps.size) {
             val row = sheet.taps[y]
             val yPosition = (y * vOffset) + (vOffset / 2) + pointGrid.rect.top
-            (0 until row.size)
-                    .filter { sheet.taps[y][it] }
-                    .map { (it * hOffset) + (hOffset / 2) + pointGrid.rect.left}
-                    .forEach { xPosition -> canvas.drawCircle(xPosition, yPosition, pointGrid.radius, pointGrid.paint) }
+            for (x in 0 until row.size) {
+                if (sheet.taps[y][x]) {
+                    val xPosition = (x * hOffset) + (hOffset / 2) + pointGrid.rect.left
+                    canvas.drawCircle(xPosition, yPosition, radii[x], pointGrid.paint)
+                }
+            }
         }
+    }
+
+    fun startAnimation(row: Int) {
+        animators[row].start()
     }
 
     fun onClick(e: MotionEvent, sheet: Sheet, onClickListener: () -> Unit) {
@@ -41,5 +64,29 @@ internal class PointGridDrawManager(val pointGrid: PointGrid) {
         yIndex = Math.max(Math.min(yIndex, sheet.taps.lastIndex), 0)
 
         return Pair(xIndex, yIndex)
+    }
+
+    private fun setupAnimators() {
+        val propertyRadius = PropertyValuesHolder.ofFloat(POINT_RADIUS_PROPERTY, pointGrid.radius, pointGrid.maxRadius)
+        val propertyRadiusReverse = PropertyValuesHolder.ofFloat(POINT_RADIUS_REVERSE_PROPERTY, pointGrid.maxRadius, pointGrid.radius)
+
+        animators.forEachIndexed { index, set ->
+            val animator = ValueAnimator()
+            animator.setValues(propertyRadius)
+            animator.duration = pointGrid.animationDuration.toLong() / 2
+            animator.addUpdateListener { animation ->
+                radii[index] = animation.getAnimatedValue(POINT_RADIUS_PROPERTY) as Float
+                invalidator.onInvalidate()
+            }
+
+            val animatorReverse = ValueAnimator()
+            animatorReverse.setValues(propertyRadiusReverse)
+            animatorReverse.duration = pointGrid.animationDuration.toLong() / 2
+            animatorReverse.addUpdateListener { animation ->
+                radii[index] = animation.getAnimatedValue(POINT_RADIUS_REVERSE_PROPERTY) as Float
+                invalidator.onInvalidate()
+            }
+            set.playSequentially(animator, animatorReverse)
+        }
     }
 }

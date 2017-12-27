@@ -8,6 +8,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import com.krishnakandula.pulseview.background.Background
 import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
@@ -21,7 +22,7 @@ import com.krishnakandula.pulseview.util.containsExclusive
 class PulseView(context: Context,
                 attrs: AttributeSet?,
                 defStyleAttr: Int,
-                defStyleRes: Int) : View(context, attrs, defStyleAttr, defStyleRes) {
+                defStyleRes: Int) : View(context, attrs, defStyleAttr, defStyleRes), Invalidator {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
 
@@ -29,7 +30,7 @@ class PulseView(context: Context,
     private val backgroundManager = BackgroundDrawManager(Background.from(typedAttrs))
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val lineTabManager = LineTabDrawManager(LineTab.from(typedAttrs))
-    private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs))
+    private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
 
     private var sheet: Sheet = Sheet(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
     private lateinit var animationManager: AnimationManager
@@ -43,9 +44,8 @@ class PulseView(context: Context,
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width: Int = Math.max(View.MeasureSpec.getSize(widthMeasureSpec), Background.minWidth.toInt())
-        val height: Int = Math.max(View.MeasureSpec.getSize(heightMeasureSpec),
-                Background.minHeight.toInt() + LineTab.HEIGHT.toInt())
+        val width: Int = View.MeasureSpec.getSize(widthMeasureSpec)
+        val height: Int = View.MeasureSpec.getSize(heightMeasureSpec)
 
         setMeasuredDimension(width, height)
     }
@@ -53,11 +53,11 @@ class PulseView(context: Context,
     override fun onDraw(canvas: Canvas?) {
         if (canvas != null) {
             setBackgroundMeasurements()
-            setLineTabMeasurements()
+//            setLineTabMeasurements()
             setGridMeasurements()
             setPointGridMeasurements()
 
-            lineTabManager.draw(canvas)
+//            lineTabManager.draw(canvas)
             backgroundManager.draw(canvas)
             gridManager.draw(canvas)
             pointGridManager.draw(canvas, sheet)
@@ -68,7 +68,7 @@ class PulseView(context: Context,
         backgroundManager.background.rect.left = left
         backgroundManager.background.rect.top = top
         backgroundManager.background.rect.right = backgroundManager.getBackgroundRight(right, marginParams().leftMargin, marginParams().rightMargin)
-        backgroundManager.background.rect.bottom = backgroundManager.getBackgroundBottom(bottom, marginParams().bottomMargin, marginParams().topMargin, LineTab.HEIGHT.toInt())
+        backgroundManager.background.rect.bottom = backgroundManager.getBackgroundBottom(bottom, marginParams().bottomMargin, marginParams().topMargin)
     }
 
     private fun setGridMeasurements() {
@@ -105,4 +105,11 @@ class PulseView(context: Context,
         }
     })
 
+    fun startAnimation(row: Int) {
+        post { pointGridManager.startAnimation(row) }
+    }
+
+    override fun onInvalidate() {
+        invalidate()
+    }
 }

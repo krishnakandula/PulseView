@@ -5,8 +5,8 @@ import com.krishnakandula.pulseview.util.toRectF
 
 internal class BackgroundDrawManager(val background: Background) {
 
-    fun getBackgroundBottom(windowBottom: Int, bottomMargin: Int, topMargin: Int, lineTabHeight: Int): Int {
-        return windowBottom - (bottomMargin + topMargin) - lineTabHeight
+    fun getBackgroundBottom(windowBottom: Int, bottomMargin: Int, topMargin: Int): Int {
+        return windowBottom - (bottomMargin + topMargin)
     }
 
     fun getBackgroundRight(windowRight: Int, leftMargin: Int, rightMargin: Int): Int {

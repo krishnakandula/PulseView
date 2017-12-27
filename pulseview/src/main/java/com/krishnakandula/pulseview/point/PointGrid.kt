@@ -10,6 +10,8 @@ import com.krishnakandula.pulseview.util.toPx
 internal class PointGrid(val horizontalLines: Int,
                          val verticalLines: Int,
                          val radius: Float,
+                         val maxRadius: Float,
+                         val animationDuration: Int,
                          val color: Int) {
 
     val rect = Rect()
@@ -20,12 +22,16 @@ internal class PointGrid(val horizontalLines: Int,
         private val DEFAULT_VERTICAL_LINES = Grid.DEFAULT_VERTICAL_LINES
         private val DEFAULT_COLOR = Color.MAGENTA
         private val DEFAULT_RADIUS = 3.toPx()
+        private val MAX_RADIUS = DEFAULT_RADIUS * 2
+        private val DEFAULT_ANIM_DURATION = 500
         private val DEFAULT_STYLE = Paint.Style.FILL
 
         fun from(typedAttrs: TypedArray): PointGrid {
             return PointGrid(DEFAULT_HORIZONTAL_LINES,
                     DEFAULT_VERTICAL_LINES,
                     DEFAULT_RADIUS,
+                    MAX_RADIUS,
+                    DEFAULT_ANIM_DURATION,
                     DEFAULT_COLOR)
         }
     }
