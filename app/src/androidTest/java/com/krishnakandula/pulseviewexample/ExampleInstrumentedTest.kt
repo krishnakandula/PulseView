@@ -1,4 +1,4 @@
-package com.krishnakandula.taptune
+package com.krishnakandula.pulseviewexample
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

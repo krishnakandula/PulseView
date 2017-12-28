@@ -1,4 +1,4 @@
-package com.krishnakandula.taptune
+package com.krishnakandula.pulseviewexample
 
 import org.junit.Test
 

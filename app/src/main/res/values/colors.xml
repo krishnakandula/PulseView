@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="pulseViewBackgroundColor">#13029D</color>
+    <color name="pulseViewPointColor">#CBBE57</color>
+    <color name="pulseViewGridColor">#A11240</color>
+
+    <color name="pulseViewPointColor2">#18C8B1</color>
+    <color name="pulseViewBackgroundColor2">#081110</color>
 </resources>

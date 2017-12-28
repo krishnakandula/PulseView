@@ -36,3 +36,6 @@ captures/
 *.iml
 *.iws
 *.ipr
+app/\.DS_Store
+
+\.DS_Store
