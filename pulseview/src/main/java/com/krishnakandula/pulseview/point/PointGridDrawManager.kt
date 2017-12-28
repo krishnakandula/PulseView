@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.krishnakandula.pulseview.Invalidator
 import com.krishnakandula.pulseview.Sheet
+import com.krishnakandula.pulseview.util.containsExclusive
 
 internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidator: Invalidator) {
 
@@ -23,6 +24,8 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
     init {
         setupAnimators()
     }
+
+    fun containsClick(x: Float, y: Float): Boolean = pointGrid.rect.containsExclusive(x, y)
 
     fun draw(canvas: Canvas, sheet: Sheet) {
         val vOffset = pointGrid.rect.height() / (pointGrid.horizontalLines.toFloat() + 1)
@@ -43,13 +46,13 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
         animators[col].start()
     }
 
-    fun onClick(e: MotionEvent, sheet: Sheet, onClickListener: () -> Unit) {
+    fun onClick(e: MotionEvent, sheet: Sheet): Boolean {
         val indices = getPointIndices(e.x, e.y, sheet)
         when (sheet.checkPointExists(indices.first, indices.second)) {
             true -> sheet.removePoint(indices.first, indices.second)
             false -> sheet.addPoint(indices.first, indices.second)
         }
-        onClickListener()
+        return true
     }
 
     private fun getPointIndices(x: Float, y: Float, sheet: Sheet): Pair<Int, Int> {

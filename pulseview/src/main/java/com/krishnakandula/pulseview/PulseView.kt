@@ -40,6 +40,35 @@ class PulseView(context: Context,
         invalidate()
     }
 
+    fun startAnimation(col: Int) {
+        post { pointGridManager.startAnimation(col) }
+    }
+
+    fun startAnimations(vararg cols: Int) {
+        cols.forEach { startAnimation(it) }
+    }
+
+    fun startAnimationsWithDelay(vararg cols: Int, delay: Long) {
+        Thread {
+            cols.forEach {
+                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
+                startAnimation(it)
+                Thread.sleep(delay)
+            }
+        }.start()
+    }
+
+    fun startAnimationsInRangeWithDelay(start: Int, end: Int, delay: Long) {
+        if (start > end) return
+        Thread {
+            (start..end).forEach {
+                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
+                startAnimation(it)
+                Thread.sleep(delay)
+            }
+        }.start()
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width: Int = View.MeasureSpec.getSize(widthMeasureSpec)
         val height: Int = View.MeasureSpec.getSize(heightMeasureSpec)
@@ -86,41 +115,17 @@ class PulseView(context: Context,
 
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent?): Boolean {
-            if (e != null && pointGridManager.pointGrid.rect.containsExclusive(e.x, e.y)) {
-                pointGridManager.onClick(e, sheet, { invalidate() })
+            var shouldInvalidate = false
+            if (e != null) {
+                if (pointGridManager.containsClick(e.x, e.y)) {
+                    shouldInvalidate = pointGridManager.onClick(e, sheet)
+                }
             }
+
+            if(shouldInvalidate) invalidate()
             return true
         }
     })
-
-    fun startAnimation(col: Int) {
-        post { pointGridManager.startAnimation(col) }
-    }
-
-    fun startAnimations(vararg cols: Int) {
-        cols.forEach { startAnimation(it) }
-    }
-
-    fun startAnimationsWithDelay(vararg cols: Int, delay: Long) {
-        Thread {
-            cols.forEach {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
-                startAnimation(it)
-                Thread.sleep(delay)
-            }
-        }.start()
-    }
-
-    fun startAnimationsInRangeWithDelay(start: Int, end: Int, delay: Long) {
-        if (start > end) return
-        Thread {
-            (start..end).forEach {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
-                startAnimation(it)
-                Thread.sleep(delay)
-            }
-        }.start()
-    }
 
     override fun onInvalidate() {
         invalidate()
