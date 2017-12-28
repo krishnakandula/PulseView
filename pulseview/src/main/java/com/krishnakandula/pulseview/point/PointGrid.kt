@@ -4,6 +4,7 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import com.krishnakandula.pulseview.R
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.util.toPx
 
@@ -27,12 +28,12 @@ internal class PointGrid(val horizontalLines: Int,
         private val DEFAULT_STYLE = Paint.Style.FILL
 
         fun from(typedAttrs: TypedArray): PointGrid {
-            return PointGrid(DEFAULT_HORIZONTAL_LINES,
-                    DEFAULT_VERTICAL_LINES,
-                    DEFAULT_RADIUS,
-                    MAX_RADIUS,
-                    DEFAULT_ANIM_DURATION,
-                    DEFAULT_COLOR)
+            return PointGrid(typedAttrs.getInt(R.styleable.PulseView_horizontalLines, DEFAULT_HORIZONTAL_LINES),
+                    typedAttrs.getInt(R.styleable.PulseView_verticalLines, DEFAULT_VERTICAL_LINES),
+                    typedAttrs.getFloat(R.styleable.PulseView_pointRadius, DEFAULT_RADIUS),
+                    typedAttrs.getFloat(R.styleable.PulseView_pointMaxRadius, MAX_RADIUS),
+                    typedAttrs.getInt(R.styleable.PulseView_pointAnimationDuration, DEFAULT_ANIM_DURATION),
+                    typedAttrs.getColor(R.styleable.PulseView_pointColor, DEFAULT_COLOR))
         }
     }
 

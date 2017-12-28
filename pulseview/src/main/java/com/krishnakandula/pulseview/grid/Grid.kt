@@ -20,8 +20,8 @@ internal class Grid(val horizontalLines: Int,
         private const val DEFAULT_GRID_COLOR = Color.DKGRAY
 
         fun from(typedAttrs: TypedArray): Grid {
-            return Grid(DEFAULT_HORIZONTAL_LINES,
-                    DEFAULT_VERTICAL_LINES,
+            return Grid(typedAttrs.getInt(R.styleable.PulseView_horizontalLines, DEFAULT_HORIZONTAL_LINES),
+                    typedAttrs.getInt(R.styleable.PulseView_verticalLines, DEFAULT_VERTICAL_LINES),
                     typedAttrs.getColor(R.styleable.PulseView_gridColor, DEFAULT_GRID_COLOR))
         }
 

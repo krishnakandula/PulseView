@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PulseView">
+        <!-- Background -->
         <attr name="backgroundColor" format="color"/>
-        <attr name="edgeRadius" format="float"/>
-        <attr name="edgeWidth" format="float"/>
+        <attr name="backgroundEdgeRadius" format="float"/>
+        <attr name="backgroundEdgeWidth" format="float"/>
+
+        <!-- Grid -->
         <attr name="gridColor" format="color"/>
+        <attr name="horizontalLines" format="integer"/>
+        <attr name="verticalLines" format="integer"/>
+
+        <!-- Point -->
+        <attr name="pointRadius" format="float"/>
+        <attr name="pointMaxRadius" format="float"/>
+        <attr name="pointAnimationDuration" format="integer"/>
+        <attr name="pointColor" format="color"/>
     </declare-styleable>
 </resources>

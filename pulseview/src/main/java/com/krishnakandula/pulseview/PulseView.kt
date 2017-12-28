@@ -15,7 +15,7 @@ import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
 import com.krishnakandula.pulseview.point.PointGrid
 import com.krishnakandula.pulseview.point.PointGridDrawManager
-import com.krishnakandula.pulseview.util.containsExclusive
+import java.util.concurrent.Executors
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -28,6 +28,7 @@ class PulseView(context: Context,
     private val backgroundManager = BackgroundDrawManager(Background.from(typedAttrs))
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
+    private val animationExecutor = Executors.newSingleThreadExecutor()
 
     private var sheet: Sheet = Sheet(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
 
@@ -49,24 +50,24 @@ class PulseView(context: Context,
     }
 
     fun startAnimationsWithDelay(vararg cols: Int, delay: Long) {
-        Thread {
+        animationExecutor.execute {
             cols.forEach {
                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
                 startAnimation(it)
                 Thread.sleep(delay)
             }
-        }.start()
+        }
     }
 
     fun startAnimationsInRangeWithDelay(start: Int, end: Int, delay: Long) {
         if (start > end) return
-        Thread {
+        animationExecutor.execute {
             (start..end).forEach {
                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
                 startAnimation(it)
                 Thread.sleep(delay)
             }
-        }.start()
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
