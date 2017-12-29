@@ -6,8 +6,8 @@ import android.graphics.Paint
 import android.graphics.Rect
 import com.krishnakandula.pulseview.R
 
-internal class Grid(val horizontalLines: Int,
-                    val verticalLines: Int,
+internal class Grid(var horizontalLines: Int,
+                    var verticalLines: Int,
                     val color: Int) {
 
     val rect = Rect()

@@ -30,12 +30,12 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
     fun draw(canvas: Canvas, sheet: Sheet) {
         val vOffset = pointGrid.rect.height() / (pointGrid.horizontalLines.toFloat() + 1)
         val hOffset = pointGrid.rect.width() / (pointGrid.verticalLines.toFloat() + 1)
-        for (y in 0 until sheet.taps.size) {
-            val row = sheet.taps[y]
-            val yPosition = (y * vOffset) + (vOffset / 2) + pointGrid.rect.top
-            for (x in 0 until row.size) {
-                if (sheet.taps[y][x]) {
-                    val xPosition = (x * hOffset) + (hOffset / 2) + pointGrid.rect.left
+        for (x in 0 until sheet.taps.size) {
+            val col = sheet.taps[x]
+            val xPosition = (x * hOffset) + (hOffset / 2) + pointGrid.rect.left
+            for (y in 0 until col.size) {
+                if (sheet.checkPointExists(x, y)) {
+                    val yPosition = (y * vOffset) + (vOffset / 2) + pointGrid.rect.top
                     canvas.drawCircle(xPosition, yPosition, radii[x], pointGrid.paint)
                 }
             }
@@ -64,8 +64,8 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
         var yIndex = Math.floor(y / vOffset.toDouble()).toInt()
 
         //Ensure indices are within bounds
-        xIndex = Math.max(Math.min(xIndex, sheet.taps[0].lastIndex), 0)
-        yIndex = Math.max(Math.min(yIndex, sheet.taps.lastIndex), 0)
+        xIndex = Math.max(Math.min(xIndex, sheet.taps.lastIndex), 0)
+        yIndex = Math.max(Math.min(yIndex, sheet.taps.first().lastIndex), 0)
 
         return Pair(xIndex, yIndex)
     }

@@ -38,6 +38,10 @@ class PulseView(context: Context,
 
     fun setData(sheet: Sheet) {
         this.sheet = sheet
+        gridManager.grid.horizontalLines = sheet.horizontalLines
+        gridManager.grid.verticalLines = sheet.verticalLines
+        pointGridManager.pointGrid.horizontalLines = sheet.horizontalLines
+        pointGridManager.pointGrid.verticalLines = sheet.verticalLines
         invalidate()
     }
 
