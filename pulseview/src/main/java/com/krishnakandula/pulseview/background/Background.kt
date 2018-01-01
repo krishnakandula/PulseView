@@ -21,8 +21,8 @@ internal class Background(val edgeRadius: Float,
         private val DEFAULT_BACKGROUND_COLOR: Int = Color.parseColor("#e6e6e6")
 
         fun from(typedAttrs: TypedArray): Background {
-            return Background(typedAttrs.getFloat(R.styleable.PulseView_backgroundEdgeRadius, DEFAULT_EDGE_RADIUS),
-                    typedAttrs.getFloat(R.styleable.PulseView_backgroundEdgeWidth, DEFAULT_EDGE_WIDTH),
+            return Background(typedAttrs.getDimension(R.styleable.PulseView_backgroundEdgeRadius, DEFAULT_EDGE_RADIUS),
+                    typedAttrs.getDimension(R.styleable.PulseView_backgroundEdgeWidth, DEFAULT_EDGE_WIDTH),
                     typedAttrs.getColor(R.styleable.PulseView_backgroundColor, DEFAULT_BACKGROUND_COLOR),
                     Paint.Style.FILL)
         }

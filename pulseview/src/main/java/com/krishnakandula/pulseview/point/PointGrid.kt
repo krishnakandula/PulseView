@@ -30,8 +30,8 @@ internal class PointGrid(var horizontalLines: Int,
         fun from(typedAttrs: TypedArray): PointGrid {
             return PointGrid(typedAttrs.getInt(R.styleable.PulseView_horizontalLines, DEFAULT_HORIZONTAL_LINES),
                     typedAttrs.getInt(R.styleable.PulseView_verticalLines, DEFAULT_VERTICAL_LINES),
-                    typedAttrs.getFloat(R.styleable.PulseView_pointRadius, DEFAULT_RADIUS),
-                    typedAttrs.getFloat(R.styleable.PulseView_pointMaxRadius, MAX_RADIUS),
+                    typedAttrs.getDimension(R.styleable.PulseView_pointRadius, DEFAULT_RADIUS),
+                    typedAttrs.getDimension(R.styleable.PulseView_pointMaxRadius, MAX_RADIUS),
                     typedAttrs.getInt(R.styleable.PulseView_pointAnimationDuration, DEFAULT_ANIM_DURATION),
                     typedAttrs.getColor(R.styleable.PulseView_pointColor, DEFAULT_COLOR))
         }

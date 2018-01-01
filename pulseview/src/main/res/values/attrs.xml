@@ -3,8 +3,8 @@
     <declare-styleable name="PulseView">
         <!-- Background -->
         <attr name="backgroundColor" format="color"/>
-        <attr name="backgroundEdgeRadius" format="float"/>
-        <attr name="backgroundEdgeWidth" format="float"/>
+        <attr name="backgroundEdgeRadius" format="dimension"/>
+        <attr name="backgroundEdgeWidth" format="dimension"/>
 
         <!-- Grid -->
         <attr name="gridColor" format="color"/>
@@ -12,8 +12,8 @@
         <attr name="verticalLines" format="integer"/>
 
         <!-- Point -->
-        <attr name="pointRadius" format="float"/>
-        <attr name="pointMaxRadius" format="float"/>
+        <attr name="pointRadius" format="dimension"/>
+        <attr name="pointMaxRadius" format="dimension"/>
         <attr name="pointAnimationDuration" format="integer"/>
         <attr name="pointColor" format="color"/>
     </declare-styleable>

@@ -45,15 +45,11 @@ class PulseView(context: Context,
         invalidate()
     }
 
-    fun startAnimation(col: Int) {
+    private fun startAnimation(col: Int) {
         post { pointGridManager.startAnimation(col) }
     }
 
-    fun startAnimations(vararg cols: Int) {
-        cols.forEach { startAnimation(it) }
-    }
-
-    fun startAnimationsWithDelay(vararg cols: Int, delay: Long) {
+    fun startAnimationsWithDelay(cols: List<Int>, delay: Long) {
         animationExecutor.execute {
             cols.forEach {
                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
@@ -63,10 +59,10 @@ class PulseView(context: Context,
         }
     }
 
-    fun startAnimationsInRangeWithDelay(start: Int, end: Int, delay: Long) {
-        if (start > end) return
+    fun startAnimationsInRangeWithDelay(startCol: Int, endCol: Int, delay: Long) {
+        if (startCol > endCol) return
         animationExecutor.execute {
-            (start..end).forEach {
+            (startCol..endCol).forEach {
                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
                 startAnimation(it)
                 Thread.sleep(delay)
