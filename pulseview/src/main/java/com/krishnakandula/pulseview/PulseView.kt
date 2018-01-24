@@ -30,18 +30,18 @@ class PulseView(context: Context,
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
     private val animationExecutor = Executors.newSingleThreadExecutor()
 
-    private var sheet: Sheet = Sheet(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
+    private var pulse: Pulse = Pulse(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
     }
 
-    fun setData(sheet: Sheet) {
-        this.sheet = sheet
-        gridManager.grid.horizontalLines = sheet.horizontalLines
-        gridManager.grid.verticalLines = sheet.verticalLines
-        pointGridManager.pointGrid.horizontalLines = sheet.horizontalLines
-        pointGridManager.pointGrid.verticalLines = sheet.verticalLines
+    fun setData(pulse: Pulse) {
+        this.pulse = pulse
+        gridManager.grid.horizontalLines = pulse.horizontalLines
+        gridManager.grid.verticalLines = pulse.verticalLines
+        pointGridManager.pointGrid.horizontalLines = pulse.horizontalLines
+        pointGridManager.pointGrid.verticalLines = pulse.verticalLines
         invalidate()
     }
 
@@ -85,7 +85,7 @@ class PulseView(context: Context,
 
             backgroundManager.draw(canvas)
             gridManager.draw(canvas)
-            pointGridManager.draw(canvas, sheet)
+            pointGridManager.draw(canvas, pulse)
         }
     }
 
@@ -119,7 +119,7 @@ class PulseView(context: Context,
             var shouldInvalidate = false
             if (e != null) {
                 if (pointGridManager.containsClick(e.x, e.y)) {
-                    shouldInvalidate = pointGridManager.onClick(e, sheet)
+                    shouldInvalidate = pointGridManager.onClick(e, pulse)
                 }
             }
 

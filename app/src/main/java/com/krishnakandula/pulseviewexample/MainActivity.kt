@@ -2,7 +2,7 @@ package com.krishnakandula.pulseviewexample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.krishnakandula.pulseview.Sheet
+import com.krishnakandula.pulseview.Pulse
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun createSheet(): Sheet {
-        val sheet = Sheet()
+    private fun createSheet(): Pulse {
+        val sheet = Pulse()
         (0 until sheet.taps.size).forEach { sheet.taps[it][0] = true }
 
         return sheet
