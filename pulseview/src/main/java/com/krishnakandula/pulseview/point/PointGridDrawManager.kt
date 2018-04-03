@@ -6,11 +6,10 @@ import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.animation.AccelerateDecelerateInterpolator
-import com.krishnakandula.pulseview.Invalidator
 import com.krishnakandula.pulseview.Pulse
 import com.krishnakandula.pulseview.util.containsExclusive
 
-internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidator: Invalidator) {
+internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () -> Unit) {
 
     private val animators: List<AnimatorSet> = List(pointGrid.verticalLines + 1, { AnimatorSet() })
     private val radii: MutableList<Float> = MutableList(pointGrid.verticalLines + 1, { pointGrid.radius })
@@ -81,7 +80,7 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
             animator.interpolator = AccelerateDecelerateInterpolator()
             animator.addUpdateListener { animation ->
                 radii[index] = animation.getAnimatedValue(POINT_RADIUS_PROPERTY) as Float
-                invalidator.onInvalidate()
+                invalidate()
             }
 
             val animatorReverse = ValueAnimator()
@@ -90,7 +89,7 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
             animatorReverse.interpolator = AccelerateDecelerateInterpolator()
             animatorReverse.addUpdateListener { animation ->
                 radii[index] = animation.getAnimatedValue(POINT_RADIUS_REVERSE_PROPERTY) as Float
-                invalidator.onInvalidate()
+                invalidate()
             }
             set.playSequentially(animator, animatorReverse)
         }

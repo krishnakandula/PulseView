@@ -20,14 +20,14 @@ import java.util.concurrent.Executors
 class PulseView(context: Context,
                 attrs: AttributeSet?,
                 defStyleAttr: Int,
-                defStyleRes: Int) : View(context, attrs, defStyleAttr, defStyleRes), Invalidator {
+                defStyleRes: Int) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
 
     private val typedAttrs: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.PulseView)
     private val backgroundManager = BackgroundDrawManager(Background.from(typedAttrs))
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
-    private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
+    private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
     val animationsManager = AnimationsManager(pulse, this::startAnimation)
 
@@ -106,8 +106,4 @@ class PulseView(context: Context,
             return true
         }
     })
-
-    override fun onInvalidate() {
-        invalidate()
-    }
 }
