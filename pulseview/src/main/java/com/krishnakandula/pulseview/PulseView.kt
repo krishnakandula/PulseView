@@ -28,9 +28,8 @@ class PulseView(context: Context,
     private val backgroundManager = BackgroundDrawManager(Background.from(typedAttrs))
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
-    private val animationExecutor = Executors.newSingleThreadExecutor()
-
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
+    val animationsManager = AnimationsManager(pulse, this::startAnimation)
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
@@ -38,6 +37,7 @@ class PulseView(context: Context,
 
     fun setData(pulse: Pulse) {
         this.pulse = pulse
+        animationsManager.pulse = pulse
         gridManager.grid.horizontalLines = pulse.horizontalLines
         gridManager.grid.verticalLines = pulse.verticalLines
         pointGridManager.pointGrid.horizontalLines = pulse.horizontalLines
@@ -47,27 +47,6 @@ class PulseView(context: Context,
 
     private fun startAnimation(col: Int) {
         post { pointGridManager.startAnimation(col) }
-    }
-
-    fun startAnimationsWithDelay(cols: List<Int>, delay: Long) {
-        animationExecutor.execute {
-            cols.forEach {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
-                startAnimation(it)
-                Thread.sleep(delay)
-            }
-        }
-    }
-
-    fun startAnimationsInRangeWithDelay(startCol: Int, endCol: Int, delay: Long) {
-        if (startCol > endCol) return
-        animationExecutor.execute {
-            (startCol..endCol).forEach {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
-                startAnimation(it)
-                Thread.sleep(delay)
-            }
-        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
