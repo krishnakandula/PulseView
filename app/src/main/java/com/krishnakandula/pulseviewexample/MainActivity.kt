@@ -13,11 +13,9 @@ class MainActivity : AppCompatActivity() {
 
         pulseview.setData(createSheet())
         button.setOnClickListener {
-            pulseview
-                    .animationsManager
-                    .startAnimationsInRangeWithDelay(0, 7, 500)
+            pulseview.animationsManager.startAnimationsInRange(0, 7, 250, 0)
         }
-        stop_button.setOnClickListener { pulseview.animationsManager.stop() }
+        stop_button.setOnClickListener { pulseview.animationsManager.stopAll() }
     }
 
     private fun createSheet(): Pulse {
@@ -28,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        pulseview.animationsManager.stop()
+        pulseview.animationsManager.stopAll()
         super.onStop()
     }
 }

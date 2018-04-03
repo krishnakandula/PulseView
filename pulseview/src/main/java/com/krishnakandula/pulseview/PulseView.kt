@@ -3,7 +3,6 @@ package com.krishnakandula.pulseview
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
-import android.os.Process
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -15,7 +14,6 @@ import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
 import com.krishnakandula.pulseview.point.PointGrid
 import com.krishnakandula.pulseview.point.PointGridDrawManager
-import java.util.concurrent.Executors
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -45,8 +43,8 @@ class PulseView(context: Context,
         invalidate()
     }
 
-    private fun startAnimation(col: Int) {
-        post { pointGridManager.startAnimation(col) }
+    private fun startAnimation(col: Int, onAnimationFinished: (col: Int) -> Unit) {
+        post { pointGridManager.startAnimation(col, onAnimationFinished) }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

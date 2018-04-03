@@ -1,5 +1,7 @@
 package com.krishnakandula.pulseview.point
 
+
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
@@ -7,6 +9,7 @@ import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.krishnakandula.pulseview.Pulse
+import com.krishnakandula.pulseview.util.AnimationEndListener
 import com.krishnakandula.pulseview.util.containsExclusive
 
 internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () -> Unit) {
@@ -41,8 +44,11 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
         }
     }
 
-    fun startAnimation(col: Int) {
+    fun startAnimation(col: Int, onAnimationFinished: ((col: Int) -> Unit)?) {
         animators[col].start()
+        if (onAnimationFinished != null) animators[col].addListener(object : AnimationEndListener() {
+            override fun onAnimationEnd(p0: Animator?) { onAnimationFinished(col) }
+        })
     }
 
     fun onClick(e: MotionEvent, pulse: Pulse): Boolean {
