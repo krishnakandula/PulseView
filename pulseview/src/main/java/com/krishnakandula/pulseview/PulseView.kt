@@ -30,7 +30,7 @@ class PulseView(context: Context,
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this)
     private val animationExecutor = Executors.newSingleThreadExecutor()
 
-    private var pulse: Pulse = Pulse(gridManager.grid.horizontalLines, gridManager.grid.verticalLines)
+    private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName

@@ -2,18 +2,27 @@ package com.krishnakandula.pulseview
 
 import com.krishnakandula.pulseview.grid.Grid
 
-data class Pulse(val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES,
-                 val verticalLines: Int = Grid.DEFAULT_VERTICAL_LINES) {
+data class Pulse(val verticalLines: Int = Grid.DEFAULT_VERTICAL_LINES,
+                 val horizontalLines: Int = Grid.DEFAULT_HORIZONTAL_LINES) {
+
+    init {
+        if (horizontalLines < 0 || horizontalLines == Int.MAX_VALUE)
+            throw IllegalArgumentException("Number of horizontal lines must be between 0 and ${Int.MAX_VALUE - 1}")
+        if (verticalLines < 0 || verticalLines == Int.MAX_VALUE)
+            throw IllegalArgumentException("Number of vertical lines must be between 0 and ${Int.MAX_VALUE - 1}")
+    }
 
     val taps: List<MutableList<Boolean>> = List(verticalLines + 1, { MutableList(horizontalLines + 1, { false }) })
 
-    fun checkPointExists(x: Int, y: Int): Boolean = taps[x][y]
+    fun checkPointExists(x: Int, y: Int): Boolean = checkValidPoint(x, y) && taps[x][y]
+
+    private fun checkValidPoint(x: Int, y: Int): Boolean = x in 0..taps.lastIndex && y in 0..taps[x].lastIndex
 
     fun addPoint(x: Int, y: Int) {
-        taps[x][y] = true
+        if (checkValidPoint(x, y)) taps[x][y] = true
     }
 
     fun removePoint(x: Int, y: Int) {
-        taps[x][y] = false
+        if (checkValidPoint(x, y)) taps[x][y] = false
     }
 }
