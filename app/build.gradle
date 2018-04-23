@@ -22,6 +22,10 @@ android {
     }
 }
 
+ext {
+    supportLibVersion = "v7:27.0.2"
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -33,5 +37,8 @@ dependencies {
     implementation project(':pulseview')
 
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    //Design Support Library
+    compile "com.android.support:cardview-$supportLibVersion"
 
 }
