@@ -10,4 +10,7 @@
 
     <color name="pulseViewPointColor2">#18C8B1</color>
     <color name="pulseViewBackgroundColor2">#081110</color>
+
+    <color name="pulseViewPointColorPink">#ad1457</color>
+    <color name="pulseViewBackgroundColorLilac">#9fa8da</color>
 </resources>

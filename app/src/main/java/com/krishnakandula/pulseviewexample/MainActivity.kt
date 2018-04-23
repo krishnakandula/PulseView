@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         pulseview.setData(createSheet())
         button.setOnClickListener {
-            pulseview.animationsManager.startAnimationsInRange(0, 7, 250, 0)
+            pulseview.animationsManager.startAnimationsInRange(0, 8, 50, 0)
         }
         stop_button.setOnClickListener { pulseview.animationsManager.stopAll() }
     }

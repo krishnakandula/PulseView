@@ -16,7 +16,7 @@ internal class Grid(var horizontalLines: Int,
     companion object {
 
         const val DEFAULT_HORIZONTAL_LINES: Int = 9
-        const val DEFAULT_VERTICAL_LINES = 7
+        const val DEFAULT_VERTICAL_LINES = 8
         private const val DEFAULT_GRID_COLOR = Color.DKGRAY
 
         fun from(typedAttrs: TypedArray): Grid {
