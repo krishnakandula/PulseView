@@ -25,10 +25,11 @@
             android:id="@+id/pulseview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:backgroundColor="@color/pulseViewBackgroundColorLilac"
-            app:gridColor="@color/pulseViewBackgroundColorLilac"
+            app:backgroundColor="@color/pulseViewBackgroundColor2"
+            app:gridColor="@color/pulseViewBackgroundColor2"
             app:pointColor="@color/pulseViewPointColorPink"
-            app:backgroundEdgeRadius="16dp"/>
+            app:pointSecondaryColor="@color/pulseViewPointColor2"
+            app:backgroundEdgeRadius="8dp"/>
     </android.support.v7.widget.CardView>
 
     <Button

@@ -16,5 +16,7 @@
         <attr name="pointMaxRadius" format="dimension"/>
         <attr name="pointAnimationDuration" format="integer"/>
         <attr name="pointColor" format="color"/>
+        <attr name="pointSecondaryColor" format="color"/>
+        <attr name="pointGradient" format="boolean"/>
     </declare-styleable>
 </resources>

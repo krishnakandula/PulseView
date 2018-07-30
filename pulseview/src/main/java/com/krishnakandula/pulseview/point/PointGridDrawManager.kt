@@ -38,7 +38,7 @@ internal class PointGridDrawManager(val pointGrid: PointGrid, private val invali
             for (y in 0 until col.size) {
                 if (pulse.checkPointExists(x, y)) {
                     val yPosition = (y * vOffset) + (vOffset / 2) + pointGrid.rect.top
-                    canvas.drawCircle(xPosition, yPosition, radii[x], pointGrid.paint)
+                    canvas.drawCircle(xPosition, yPosition, radii[x], pointGrid.paints[y])
                 }
             }
         }
