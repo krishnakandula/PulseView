@@ -1,31 +1,13 @@
 package com.krishnakandula.pulseview.point
 
-
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.view.MotionEvent
-import android.view.animation.AccelerateDecelerateInterpolator
 import com.krishnakandula.pulseview.Pulse
-import com.krishnakandula.pulseview.util.AnimationEndListener
 import com.krishnakandula.pulseview.util.containsExclusive
 
-class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () -> Unit) {
+class PointGridDrawManager(val pointGrid: PointGrid, internal val invalidate: () -> Unit) {
 
-    private val animators: List<AnimatorSet> = List(pointGrid.verticalLines + 1, { AnimatorSet() })
-    private val radii: MutableList<Float> = MutableList(pointGrid.verticalLines + 1, { pointGrid.radius })
-
-    companion object {
-        private const val POINT_RADIUS_PROPERTY = "POINT_RADIUS_PROPERTY"
-        private const val POINT_RADIUS_REVERSE_PROPERTY = "POINT_RADIUS_REVERSE_PROPERTY"
-
-    }
-
-    init {
-        setupAnimators()
-    }
+    internal val radii: List<MutableList<Float>> = List(pointGrid.horizontalLines + 1) { MutableList(pointGrid.verticalLines + 1) { pointGrid.radius } }
 
     fun containsClick(x: Float, y: Float): Boolean = pointGrid.rect.containsExclusive(x, y)
 
@@ -38,17 +20,10 @@ class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () 
             for (y in 0 until col.size) {
                 if (pulse.checkPointExists(x, y)) {
                     val yPosition = (y * vOffset) + (vOffset / 2) + pointGrid.rect.top
-                    canvas.drawCircle(xPosition, yPosition, radii[x], pointGrid.paints[y])
+                    canvas.drawCircle(xPosition, yPosition, radii[y][x], pointGrid.paints[y])
                 }
             }
         }
-    }
-
-    fun startAnimation(col: Int, onAnimationFinished: ((col: Int) -> Unit)?) {
-        animators[col].start()
-        if (onAnimationFinished != null) animators[col].addListener(object : AnimationEndListener() {
-            override fun onAnimationEnd(p0: Animator?) { onAnimationFinished(col) }
-        })
     }
 
     fun onClick(e: MotionEvent, pulse: Pulse): Boolean {
@@ -73,31 +48,5 @@ class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () 
         yIndex = Math.max(Math.min(yIndex, pulse.taps.first().lastIndex), 0)
 
         return Pair(xIndex, yIndex)
-    }
-
-    private fun setupAnimators() {
-        val propertyRadius = PropertyValuesHolder.ofFloat(POINT_RADIUS_PROPERTY, pointGrid.radius, pointGrid.maxRadius)
-        val propertyRadiusReverse = PropertyValuesHolder.ofFloat(POINT_RADIUS_REVERSE_PROPERTY, pointGrid.maxRadius, pointGrid.radius)
-
-        animators.forEachIndexed { index, set ->
-            val animator = ValueAnimator()
-            animator.setValues(propertyRadius)
-            animator.duration = pointGrid.animationDuration.toLong() / 2
-            animator.interpolator = AccelerateDecelerateInterpolator()
-            animator.addUpdateListener { animation ->
-                radii[index] = animation.getAnimatedValue(POINT_RADIUS_PROPERTY) as Float
-                invalidate()
-            }
-
-            val animatorReverse = ValueAnimator()
-            animatorReverse.setValues(propertyRadiusReverse)
-            animatorReverse.duration = pointGrid.animationDuration.toLong() / 2
-            animatorReverse.interpolator = AccelerateDecelerateInterpolator()
-            animatorReverse.addUpdateListener { animation ->
-                radii[index] = animation.getAnimatedValue(POINT_RADIUS_REVERSE_PROPERTY) as Float
-                invalidate()
-            }
-            set.playSequentially(animator, animatorReverse)
-        }
     }
 }

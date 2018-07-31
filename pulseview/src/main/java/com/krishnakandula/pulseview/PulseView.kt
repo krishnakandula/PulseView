@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -12,9 +13,7 @@ import com.krishnakandula.pulseview.background.Background
 import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
-import com.krishnakandula.pulseview.point.PointAnimationsManager
-import com.krishnakandula.pulseview.point.PointGrid
-import com.krishnakandula.pulseview.point.PointGridDrawManager
+import com.krishnakandula.pulseview.point.*
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -28,28 +27,28 @@ class PulseView(context: Context,
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
-    var animationsManager = AnimationsManager(pulse, this::startAnimation)
+    var animationsManager: PointAnimationsManager
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
     }
 
-    fun setAnimationsManager(animationsManager: PointAnimationsManager) {
-
+    init {
+        animationsManager = ColumnAnimationsManager(MagnifyAnimator.createAnimators(
+                pulse.horizontalLines + 1,
+                pulse.verticalLines + 1,
+                pointGridManager
+        ), pointGridManager)
+        animationsManager.postAnimation = this::postAnimation
     }
 
     fun setData(pulse: Pulse) {
         this.pulse = pulse
-        animationsManager.pulse = pulse
         gridManager.grid.horizontalLines = pulse.horizontalLines
         gridManager.grid.verticalLines = pulse.verticalLines
         pointGridManager.pointGrid.horizontalLines = pulse.horizontalLines
         pointGridManager.pointGrid.verticalLines = pulse.verticalLines
         invalidate()
-    }
-
-    private fun startAnimation(col: Int, onAnimationFinished: (col: Int) -> Unit) {
-        post { pointGridManager.startAnimation(col, onAnimationFinished) }
     }
 
     private fun postAnimation(animation: () -> Unit) {

@@ -1,28 +1,27 @@
 package com.krishnakandula.pulseview.point
 
+import android.animation.Animator
+import android.util.Log
+import com.krishnakandula.pulseview.util.AnimationEndListener
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.timerTask
 
-class ColumnAnimationsManager<ANIMATOR : PointAnimator> : PointAnimationsManager {
+class ColumnAnimationsManager : PointAnimationsManager {
 
-    constructor(drawManager: PointGridDrawManager): super(drawManager)
+    constructor(pointAnimators: List<List<PointAnimator>>,
+                drawManager: PointGridDrawManager) : super(pointAnimators, drawManager)
 
     private var timer: Timer = Timer()
     private var tasks = Array(
             drawManager.pointGrid.verticalLines + 1)
-            { col -> AnimationTask(col) }
-    private val pointAnimators: List<ANIMATOR>
+    { col -> AnimationTask(pointAnimators.flatten().filter { it.col == col }) }
 
-    init {
-        // Create list of point animators
-        pointAnimators = List(getNumOfCols(), { })
-    }
-
+    // Will start all animations
     override fun startAnimations(period: Long, delay: Long) {
         var startTime = delay
-        (0..drawManager.pointGrid.verticalLines).forEachIndexed { col, _ ->
-            timer.schedule(tasks[col].animate(), startTime)
+        tasks.forEach { animationTask ->
+            timer.schedule(animationTask.animate(), startTime)
             startTime += period
         }
     }
@@ -33,9 +32,7 @@ class ColumnAnimationsManager<ANIMATOR : PointAnimator> : PointAnimationsManager
         tasks.forEach { it.stop() }
     }
 
-    private fun getNumOfCols() = drawManager.pointGrid.verticalLines + 1
-
-    inner class AnimationTask(private val col: Int) {
+    inner class AnimationTask(private val animators: List<PointAnimator>) {
         private val isAnimating = AtomicBoolean()
         private var task: TimerTask? = null
 
@@ -43,7 +40,14 @@ class ColumnAnimationsManager<ANIMATOR : PointAnimator> : PointAnimationsManager
             task = timerTask {
                 if (!isAnimating.get()) {
                     isAnimating.set(true)
-                    postAnimation { pointAnimator.animate(drawManager) }
+                    animators.forEach {
+                        val animatorListener = object : AnimationEndListener() {
+                            override fun onAnimationEnd(p0: Animator?) {
+                                isAnimating.set(false)
+                            }
+                        }
+                        postAnimation { it.animate(animatorListener) }
+                    }
                 }
             }
             return task!!

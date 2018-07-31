@@ -1,6 +1,7 @@
 package com.krishnakandula.pulseview.point
 
-abstract class PointAnimationsManager(val drawManager: PointGridDrawManager) {
+abstract class PointAnimationsManager(val pointAnimators:List<List<PointAnimator>>,
+                                      val drawManager: PointGridDrawManager) {
 
     // Will be set by PulseView
     internal lateinit var postAnimation: (animation: () -> Unit) -> Unit

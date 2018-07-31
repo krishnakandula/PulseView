@@ -14,24 +14,26 @@ class MainActivity : AppCompatActivity() {
 
         pulseview.setData(createSheet())
         button.setOnClickListener {
-            pulseview.animationsManager.startAnimationsInRange(0, 8, 75, 0)
+            pulseview.animationsManager.startAnimations(period = 50, delay = 0)
         }
-        stop_button.setOnClickListener { pulseview.animationsManager.stopAll() }
+        stop_button.setOnClickListener { pulseview.animationsManager.stopAllAnimations() }
     }
 
     private fun createSheet(): Pulse {
         val sheet = Pulse()
+//        sheet.taps.forEachIndexed { index, row ->
+//            row.forEachIndexed { colIndex, _ ->
+//                sheet.taps[index][colIndex] = (Math.random() * 1).roundToInt() == 1
+//            }
+//        }
         sheet.taps.forEachIndexed { index, row ->
-            row.forEachIndexed { colIndex, _ ->
-                sheet.taps[index][colIndex] = (Math.random() * 1).roundToInt() == 1
-            }
+            if (index == 0) row.forEachIndexed { index, _ -> row[index] = true}
         }
-
         return sheet
     }
 
     override fun onStop() {
-        pulseview.animationsManager.stopAll()
+        pulseview.animationsManager.stopAllAnimations()
         super.onStop()
     }
 }
