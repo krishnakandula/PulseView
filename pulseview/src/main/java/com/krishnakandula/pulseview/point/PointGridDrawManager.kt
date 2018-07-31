@@ -12,7 +12,7 @@ import com.krishnakandula.pulseview.Pulse
 import com.krishnakandula.pulseview.util.AnimationEndListener
 import com.krishnakandula.pulseview.util.containsExclusive
 
-internal class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () -> Unit) {
+class PointGridDrawManager(val pointGrid: PointGrid, private val invalidate: () -> Unit) {
 
     private val animators: List<AnimatorSet> = List(pointGrid.verticalLines + 1, { AnimatorSet() })
     private val radii: MutableList<Float> = MutableList(pointGrid.verticalLines + 1, { pointGrid.radius })

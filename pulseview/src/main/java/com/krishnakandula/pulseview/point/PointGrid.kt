@@ -8,7 +8,7 @@ import com.krishnakandula.pulseview.R
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.util.toPx
 
-internal class PointGrid(var horizontalLines: Int,
+class PointGrid(var horizontalLines: Int,
                          var verticalLines: Int,
                          val radius: Float,
                          val maxRadius: Float,

@@ -12,6 +12,7 @@ import com.krishnakandula.pulseview.background.Background
 import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
+import com.krishnakandula.pulseview.point.PointAnimationsManager
 import com.krishnakandula.pulseview.point.PointGrid
 import com.krishnakandula.pulseview.point.PointGridDrawManager
 
@@ -27,10 +28,14 @@ class PulseView(context: Context,
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
-    val animationsManager = AnimationsManager(pulse, this::startAnimation)
+    var animationsManager = AnimationsManager(pulse, this::startAnimation)
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
+    }
+
+    fun setAnimationsManager(animationsManager: PointAnimationsManager) {
+
     }
 
     fun setData(pulse: Pulse) {
@@ -45,6 +50,10 @@ class PulseView(context: Context,
 
     private fun startAnimation(col: Int, onAnimationFinished: (col: Int) -> Unit) {
         post { pointGridManager.startAnimation(col, onAnimationFinished) }
+    }
+
+    private fun postAnimation(animation: () -> Unit) {
+        post { animation() }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
