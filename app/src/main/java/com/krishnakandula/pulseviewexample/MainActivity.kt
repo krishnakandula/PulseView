@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         pulseview.setData(pulse)
         pulseview.setAnimationsManager(ColumnAnimationsManager(MagnifyAnimator.createAnimators(pulse.numRows, pulse.numCols)))
         button.setOnClickListener {
-            val period = if (periodTextView.text.isNotBlank()) Integer.parseInt(periodTextView.text.toString()).toLong() else 100
-            pulseview.getAnimationsManager()?.startAnimations(period, 0, pulse)
+            val period = if (periodTextView.text.isNotBlank()) Integer.parseInt(periodTextView.text.toString()).toLong() else 175
+            (pulseview.getAnimationsManager() as ColumnAnimationsManager).startAnimations(period, 0, pulse, 4, pulse.numCols - 1)
         }
         stop_button.setOnClickListener { pulseview.getAnimationsManager()?.stopAllAnimations() }
     }

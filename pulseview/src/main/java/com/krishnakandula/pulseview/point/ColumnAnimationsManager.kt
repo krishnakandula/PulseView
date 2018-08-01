@@ -18,11 +18,27 @@ class ColumnAnimationsManager : PointAnimationsManager {
 
     // Will start all animations
     override fun startAnimations(period: Long, delay: Long, pulse: Pulse) {
+        startAnimations(period, delay, pulse, 0, drawManager.getNumCols() - 1)
+    }
+
+    fun startAnimations(period: Long, delay: Long, pulse: Pulse, startCol: Int, endCol: Int) {
         stopAllAnimations()
-        val animatorSets = Array(drawManager.getNumCols()) { AnimatorSet() }
-        val filteredPointAnimators = pointAnimators.flatten().filter {
-            pulse.taps[it.col][it.row]
+
+        var start = Math.max(0, Math.min(startCol, drawManager.getNumCols() - 1))
+        var end = Math.max(0, Math.min(endCol, drawManager.getNumCols() - 1))
+        var reverse = end < start
+
+        if (reverse) {
+            val temp = start
+            start = end
+            end = temp
         }
+
+        var filteredPointAnimators = pointAnimators.flatten().filter {
+            it.col in start..end && pulse.taps[it.col][it.row]
+        }
+
+        val animatorSets = Array(drawManager.getNumCols()) { AnimatorSet() }
         filteredPointAnimators.forEach { animator ->
             if (!colIsAnimating[animator.col]) {
                 animatorSets[animator.col].playTogether(animator.animate(period, object : SimpleAnimationListener() {
@@ -37,6 +53,7 @@ class ColumnAnimationsManager : PointAnimationsManager {
             }
         }
         animation = AnimatorSet()
+        if (reverse) animatorSets.reverse()
         animation?.playSequentially(*animatorSets)
         animation?.startDelay = delay
         animation?.addListener(object : SimpleAnimationListener() {
