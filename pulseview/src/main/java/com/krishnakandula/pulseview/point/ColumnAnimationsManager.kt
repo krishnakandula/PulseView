@@ -11,12 +11,10 @@ import kotlin.concurrent.timerTask
 
 class ColumnAnimationsManager : PointAnimationsManager {
 
-    constructor(pointAnimators: List<List<PointAnimator>>,
-                drawManager: PointGridDrawManager,
-                useHardwareViewLayer: (useHardware: Boolean) -> Unit) : super(pointAnimators, drawManager, useHardwareViewLayer)
+    constructor(pointAnimators: List<List<PointAnimator>>) : super(pointAnimators)
 
     private var animation: AnimatorSet? = null
-    private val colIsAnimating = Array(drawManager.getNumCols()) { false }
+    private val colIsAnimating: Array<Boolean> by lazy { Array(drawManager.getNumCols()) { false } }
 
     // Will start all animations
     override fun startAnimations(period: Long, delay: Long, pulse: Pulse) {
@@ -35,7 +33,7 @@ class ColumnAnimationsManager : PointAnimationsManager {
                     override fun onAnimationStart(p0: Animator?) {
                         colIsAnimating[animator.col] = true
                     }
-                }))
+                }, drawManager))
             }
         }
         animation = AnimatorSet()

@@ -7,13 +7,11 @@ import android.animation.ValueAnimator
 import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
 
-class MagnifyAnimator : PointAnimator {
+class MagnifyAnimator(row: Int, col: Int) : PointAnimator(row, col) {
 
-    constructor(row: Int,
-                col: Int,
-                drawManager: PointGridDrawManager) : super(row, col, drawManager)
-
-    override fun animate(duration: Long, animatorListener: Animator.AnimatorListener): AnimatorSet {
+    override fun animate(duration: Long,
+                         animatorListener: Animator.AnimatorListener,
+                         drawManager: PointGridDrawManager): AnimatorSet {
         val propertyRadius = PropertyValuesHolder.ofFloat(
                 POINT_RADIUS_PROPERTY,
                 drawManager.pointGrid.radius,
@@ -43,7 +41,7 @@ class MagnifyAnimator : PointAnimator {
         animatorReverse.addListener(animatorListener)
 
         val animatorSet = AnimatorSet()
-        animatorSet?.playSequentially(animator, animatorReverse)
+        animatorSet.playSequentially(animator, animatorReverse)
 
         return animatorSet
     }
@@ -53,9 +51,8 @@ class MagnifyAnimator : PointAnimator {
 
     companion object {
         fun createAnimators(rows: Int,
-                            cols: Int,
-                            drawManager: PointGridDrawManager): List<List<MagnifyAnimator>> {
-            return List(rows) { row -> List(cols) { col -> MagnifyAnimator(row, col, drawManager = drawManager) }}
+                            cols: Int): List<List<MagnifyAnimator>> {
+            return List(rows) { row -> List(cols) { col -> MagnifyAnimator(row, col) }}
         }
     }
 }

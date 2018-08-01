@@ -35,9 +35,9 @@ class PointGridDrawManager(val pointGrid: PointGrid, internal val invalidate: ()
         return true
     }
 
-    fun getNumCols() = pointGrid.verticalLines + 1
+    fun getNumCols(): Int = getNumCols(pointGrid)
 
-    fun getNumRows() = pointGrid.horizontalLines + 1
+    fun getNumRows(): Int = getNumRows(pointGrid)
 
     private fun getPointIndices(x: Float, y: Float, pulse: Pulse): Pair<Int, Int> {
         //Calculate offsets
@@ -52,5 +52,16 @@ class PointGridDrawManager(val pointGrid: PointGrid, internal val invalidate: ()
         yIndex = Math.max(Math.min(yIndex, pulse.taps.first().lastIndex), 0)
 
         return Pair(xIndex, yIndex)
+    }
+
+    companion object {
+
+        private fun getNumCols(pointGrid: PointGrid): Int = getNumCols(pointGrid.verticalLines)
+
+        private fun getNumRows(pointGrid: PointGrid): Int = getNumRows(pointGrid.horizontalLines)
+
+        fun getNumCols(verticalLines: Int): Int = verticalLines + 1
+
+        fun getNumRows(horizontalLines: Int): Int = horizontalLines + 1
     }
 }

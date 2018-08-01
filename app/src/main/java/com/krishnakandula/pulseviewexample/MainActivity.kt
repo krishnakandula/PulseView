@@ -3,6 +3,8 @@ package com.krishnakandula.pulseviewexample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.krishnakandula.pulseview.Pulse
+import com.krishnakandula.pulseview.point.ColumnAnimationsManager
+import com.krishnakandula.pulseview.point.MagnifyAnimator
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.roundToInt
 
@@ -14,11 +16,12 @@ class MainActivity : AppCompatActivity() {
 
         val pulse = createSheet()
         pulseview.setData(pulse)
+        pulseview.setAnimationsManager(ColumnAnimationsManager(MagnifyAnimator.createAnimators(pulse.numRows, pulse.numCols)))
         button.setOnClickListener {
             val period = if (periodTextView.text.isNotBlank()) Integer.parseInt(periodTextView.text.toString()).toLong() else 100
-            pulseview.animationsManager.startAnimations(period, 0, pulse)
+            pulseview.getAnimationsManager()?.startAnimations(period, 0, pulse)
         }
-        stop_button.setOnClickListener { pulseview.animationsManager.stopAllAnimations() }
+        stop_button.setOnClickListener { pulseview.getAnimationsManager()?.stopAllAnimations() }
     }
 
     private fun createSheet(): Pulse {
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        pulseview.animationsManager.stopAllAnimations()
+        pulseview.getAnimationsManager()?.stopAllAnimations()
         super.onStop()
     }
 }

@@ -27,29 +27,34 @@ class PulseView(context: Context,
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
-    lateinit var animationsManager: PointAnimationsManager
+    private lateinit var animationsManager: PointAnimationsManager
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
     }
 
+    fun setAnimationsManager(animationsManager: PointAnimationsManager) {
+        // TODO: Check that pointAnimators are of the right size
+        animationsManager.drawManager = pointGridManager
+        animationsManager.postAnimation = this::postAnimation
+        animationsManager.useHardwareViewLayer = this::useHardwareViewLayer
+        this.animationsManager = animationsManager
+    }
+
+    fun getAnimationsManager(): PointAnimationsManager? = if (this::animationsManager.isInitialized) animationsManager else null
+
     // This must be called
+    // this::setAnimationsManager must be called after data is set
     fun setData(pulse: Pulse) {
         this.pulse = pulse
         gridManager.grid.horizontalLines = pulse.horizontalLines
         gridManager.grid.verticalLines = pulse.verticalLines
         pointGridManager.pointGrid.horizontalLines = pulse.horizontalLines
         pointGridManager.pointGrid.verticalLines = pulse.verticalLines
-        animationsManager = ColumnAnimationsManager(MagnifyAnimator.createAnimators(
-                pointGridManager.getNumRows(),
-                pointGridManager.getNumCols(),
-                drawManager = pointGridManager
-        ), pointGridManager, this::useHardwareViewLayer)
-        animationsManager.postAnimation = this::postAnimation
         invalidate()
     }
 
-    fun useHardwareViewLayer(useHardware: Boolean) {
+    private fun useHardwareViewLayer(useHardware: Boolean) {
         if (useHardware) setLayerType(LAYER_TYPE_HARDWARE, null) else setLayerType(LAYER_TYPE_NONE, null)
     }
 
