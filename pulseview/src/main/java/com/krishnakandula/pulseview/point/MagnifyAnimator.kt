@@ -9,8 +9,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 
 class MagnifyAnimator : PointAnimator {
 
-    private val animatorSet = AnimatorSet()
-
     constructor(row: Int,
                 col: Int,
                 drawManager: PointGridDrawManager) : super(row, col, drawManager)
@@ -43,7 +41,9 @@ class MagnifyAnimator : PointAnimator {
             drawManager.invalidate()
         }
         animatorReverse.addListener(animatorListener)
-        animatorSet.playSequentially(animator, animatorReverse)
+
+        val animatorSet = AnimatorSet()
+        animatorSet?.playSequentially(animator, animatorReverse)
 
         return animatorSet
     }

@@ -20,6 +20,7 @@ class ColumnAnimationsManager : PointAnimationsManager {
 
     // Will start all animations
     override fun startAnimations(period: Long, delay: Long, pulse: Pulse) {
+        stopAllAnimations()
         val animatorSets = Array(drawManager.getNumCols()) { AnimatorSet() }
         val filteredPointAnimators = pointAnimators.flatten().filter {
             pulse.taps[it.col][it.row]
@@ -37,7 +38,6 @@ class ColumnAnimationsManager : PointAnimationsManager {
                 }))
             }
         }
-        stopAllAnimations()
         animation = AnimatorSet()
         animation?.playSequentially(*animatorSets)
         animation?.startDelay = delay
@@ -55,6 +55,7 @@ class ColumnAnimationsManager : PointAnimationsManager {
 
     override fun stopAllAnimations() {
         animation?.end()
+        animation?.cancel()
     }
 
     companion object {
