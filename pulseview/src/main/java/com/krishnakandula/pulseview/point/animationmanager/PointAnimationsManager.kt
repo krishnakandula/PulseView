@@ -1,6 +1,8 @@
-package com.krishnakandula.pulseview.point
+package com.krishnakandula.pulseview.point.animationmanager
 
 import com.krishnakandula.pulseview.Pulse
+import com.krishnakandula.pulseview.point.pointanimator.PointAnimator
+import com.krishnakandula.pulseview.point.PointGridDrawManager
 
 abstract class PointAnimationsManager (val pointAnimators: List<List<PointAnimator>>) {
 

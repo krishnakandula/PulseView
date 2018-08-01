@@ -1,11 +1,11 @@
-package com.krishnakandula.pulseview.point
+package com.krishnakandula.pulseview.point.pointanimator
 
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
-import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
+import com.krishnakandula.pulseview.point.PointGridDrawManager
 
 class MagnifyAnimator(row: Int, col: Int) : PointAnimator(row, col) {
 

@@ -1,17 +1,12 @@
-package com.krishnakandula.pulseview.point
+package com.krishnakandula.pulseview.point.animationmanager
 
 import android.animation.Animator
 import android.animation.AnimatorSet
-import android.util.Log
 import com.krishnakandula.pulseview.Pulse
+import com.krishnakandula.pulseview.point.pointanimator.PointAnimator
 import com.krishnakandula.pulseview.util.SimpleAnimationListener
-import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.concurrent.timerTask
 
-class ColumnAnimationsManager : PointAnimationsManager {
-
-    constructor(pointAnimators: List<List<PointAnimator>>) : super(pointAnimators)
+class ColumnAnimationsManager(pointAnimators: List<List<PointAnimator>>) : PointAnimationsManager(pointAnimators) {
 
     private var animation: AnimatorSet? = null
     private val colIsAnimating: Array<Boolean> by lazy { Array(drawManager.getNumCols()) { false } }
@@ -70,7 +65,6 @@ class ColumnAnimationsManager : PointAnimationsManager {
 
     override fun stopAllAnimations() {
         animation?.end()
-        animation?.cancel()
     }
 
     companion object {

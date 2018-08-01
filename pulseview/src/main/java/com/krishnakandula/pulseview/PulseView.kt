@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -14,6 +13,7 @@ import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
 import com.krishnakandula.pulseview.point.*
+import com.krishnakandula.pulseview.point.animationmanager.PointAnimationsManager
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -32,6 +32,10 @@ class PulseView(context: Context,
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
     }
+
+    fun getVerticalLines(): Int = gridManager.grid.verticalLines
+
+    fun getHorizontalLines(): Int = gridManager.grid.horizontalLines
 
     fun setAnimationsManager(animationsManager: PointAnimationsManager) {
         // TODO: Check that pointAnimators are of the right size

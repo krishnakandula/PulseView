@@ -26,6 +26,8 @@
             android:layout_height="match_parent"
             app:backgroundColor="@color/pulseViewBackgroundColor2"
             app:backgroundEdgeRadius="8dp"
+            app:verticalLines="10"
+            app:horizontalLines="10"
             app:gridColor="@color/pulseViewBackgroundColor2"
             app:pointColor="@color/pulseViewPointColorPink"
             app:pointSecondaryColor="@color/pulseViewPointColor2" />
