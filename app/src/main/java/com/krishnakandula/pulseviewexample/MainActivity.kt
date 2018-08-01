@@ -12,22 +12,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        pulseview.setData(createSheet())
+        val pulse = createSheet()
+        pulseview.setData(pulse)
         button.setOnClickListener {
-            pulseview.animationsManager.startAnimations(period = 50, delay = 0)
+            val period = if (periodTextView.text.isNotBlank()) Integer.parseInt(periodTextView.text.toString()).toLong() else 100
+            pulseview.animationsManager.startAnimations(period, 0, pulse)
         }
         stop_button.setOnClickListener { pulseview.animationsManager.stopAllAnimations() }
     }
 
     private fun createSheet(): Pulse {
         val sheet = Pulse()
-//        sheet.taps.forEachIndexed { index, row ->
-//            row.forEachIndexed { colIndex, _ ->
-//                sheet.taps[index][colIndex] = (Math.random() * 1).roundToInt() == 1
-//            }
-//        }
         sheet.taps.forEachIndexed { index, row ->
-            if (index == 0) row.forEachIndexed { index, _ -> row[index] = true}
+            row.forEachIndexed { colIndex, _ ->
+                sheet.taps[index][colIndex] = (Math.random() * 1).roundToInt() == 1
+            }
         }
         return sheet
     }

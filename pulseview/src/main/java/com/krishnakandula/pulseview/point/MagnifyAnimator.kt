@@ -15,7 +15,7 @@ class MagnifyAnimator : PointAnimator {
                 col: Int,
                 drawManager: PointGridDrawManager) : super(row, col, drawManager)
 
-    override fun animate(animatorListener: Animator.AnimatorListener) {
+    override fun animate(duration: Long, animatorListener: Animator.AnimatorListener): AnimatorSet {
         val propertyRadius = PropertyValuesHolder.ofFloat(
                 POINT_RADIUS_PROPERTY,
                 drawManager.pointGrid.radius,
@@ -28,16 +28,15 @@ class MagnifyAnimator : PointAnimator {
 
         val animator = ValueAnimator()
         animator.setValues(propertyRadius)
-        animator.duration = drawManager.pointGrid.animationDuration.toLong() / 2
+        animator.duration = duration
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.addUpdateListener { animation ->
             drawManager.radii[row][col] = animation.getAnimatedValue(POINT_RADIUS_PROPERTY) as Float
             drawManager.invalidate()
         }
-
         val animatorReverse = ValueAnimator()
         animatorReverse.setValues(propertyRadiusReverse)
-        animatorReverse.duration = drawManager.pointGrid.animationDuration.toLong() / 2
+        animatorReverse.duration = duration
         animatorReverse.interpolator = AccelerateDecelerateInterpolator()
         animatorReverse.addUpdateListener { animation ->
             drawManager.radii[row][col] = animation.getAnimatedValue(POINT_RADIUS_REVERSE_PROPERTY) as Float
@@ -45,7 +44,8 @@ class MagnifyAnimator : PointAnimator {
         }
         animatorReverse.addListener(animatorListener)
         animatorSet.playSequentially(animator, animatorReverse)
-        animatorSet.start()
+
+        return animatorSet
     }
 
     private val POINT_RADIUS_PROPERTY = "POINT_RADIUS_PROPERTY"
@@ -55,7 +55,7 @@ class MagnifyAnimator : PointAnimator {
         fun createAnimators(rows: Int,
                             cols: Int,
                             drawManager: PointGridDrawManager): List<List<MagnifyAnimator>> {
-            return List(rows) { row -> List(cols) { col -> MagnifyAnimator(row, col, drawManager) }}
+            return List(rows) { row -> List(cols) { col -> MagnifyAnimator(row, col, drawManager = drawManager) }}
         }
     }
 }

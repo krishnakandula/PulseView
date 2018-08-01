@@ -12,7 +12,7 @@ data class Pulse(val verticalLines: Int = Grid.DEFAULT_VERTICAL_LINES,
             throw IllegalArgumentException("Number of vertical lines must be between 0 and ${Int.MAX_VALUE - 1}")
     }
 
-    val taps: List<MutableList<Boolean>> = List(verticalLines + 1, { MutableList(horizontalLines + 1, { false }) })
+    val taps: List<MutableList<Boolean>> = List(verticalLines + 1) { MutableList(horizontalLines + 1) { false } }
 
     fun checkPointExists(x: Int, y: Int): Boolean = checkValidPoint(x, y) && taps[x][y]
 

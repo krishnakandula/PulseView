@@ -7,7 +7,7 @@ import com.krishnakandula.pulseview.util.containsExclusive
 
 class PointGridDrawManager(val pointGrid: PointGrid, internal val invalidate: () -> Unit) {
 
-    internal val radii: List<MutableList<Float>> = List(pointGrid.horizontalLines + 1) { MutableList(pointGrid.verticalLines + 1) { pointGrid.radius } }
+    internal val radii: List<MutableList<Float>> = List(getNumRows()) { MutableList(getNumCols()) { pointGrid.radius } }
 
     fun containsClick(x: Float, y: Float): Boolean = pointGrid.rect.containsExclusive(x, y)
 
@@ -34,6 +34,10 @@ class PointGridDrawManager(val pointGrid: PointGrid, internal val invalidate: ()
         }
         return true
     }
+
+    fun getNumCols() = pointGrid.verticalLines + 1
+
+    fun getNumRows() = pointGrid.horizontalLines + 1
 
     private fun getPointIndices(x: Float, y: Float, pulse: Pulse): Pair<Int, Int> {
         //Calculate offsets

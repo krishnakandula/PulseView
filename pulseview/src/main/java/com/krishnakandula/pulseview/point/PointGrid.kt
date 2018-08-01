@@ -12,7 +12,6 @@ class PointGrid(var horizontalLines: Int,
                          var verticalLines: Int,
                          val radius: Float,
                          val maxRadius: Float,
-                         val animationDuration: Int,
                          val primaryColor: Int,
                          val secondaryColor: Int,
                          val useGradient: Boolean) {
@@ -27,7 +26,6 @@ class PointGrid(var horizontalLines: Int,
         private val DEFAULT_SECONDARY_COLOR = Color.BLUE
         private val DEFAULT_RADIUS = 3.toPx()
         private val MAX_RADIUS = DEFAULT_RADIUS * 3
-        private val DEFAULT_ANIM_DURATION = 500
         private val DEFAULT_STYLE = Paint.Style.FILL
         private val DEFAULT_POINT_GRADIENT = true
 
@@ -36,7 +34,6 @@ class PointGrid(var horizontalLines: Int,
                     typedAttrs.getInt(R.styleable.PulseView_verticalLines, DEFAULT_VERTICAL_LINES),
                     typedAttrs.getDimension(R.styleable.PulseView_pointRadius, DEFAULT_RADIUS),
                     typedAttrs.getDimension(R.styleable.PulseView_pointMaxRadius, MAX_RADIUS),
-                    typedAttrs.getInt(R.styleable.PulseView_pointAnimationDuration, DEFAULT_ANIM_DURATION),
                     typedAttrs.getColor(R.styleable.PulseView_pointColor, DEFAULT_COLOR),
                     typedAttrs.getColor(R.styleable.PulseView_pointSecondaryColor, DEFAULT_SECONDARY_COLOR),
                     typedAttrs.getBoolean(R.styleable.PulseView_pointGradient, DEFAULT_POINT_GRADIENT))

@@ -27,28 +27,30 @@ class PulseView(context: Context,
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
-    var animationsManager: PointAnimationsManager
+    lateinit var animationsManager: PointAnimationsManager
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
     }
 
-    init {
-        animationsManager = ColumnAnimationsManager(MagnifyAnimator.createAnimators(
-                pulse.horizontalLines + 1,
-                pulse.verticalLines + 1,
-                pointGridManager
-        ), pointGridManager)
-        animationsManager.postAnimation = this::postAnimation
-    }
-
+    // This must be called
     fun setData(pulse: Pulse) {
         this.pulse = pulse
         gridManager.grid.horizontalLines = pulse.horizontalLines
         gridManager.grid.verticalLines = pulse.verticalLines
         pointGridManager.pointGrid.horizontalLines = pulse.horizontalLines
         pointGridManager.pointGrid.verticalLines = pulse.verticalLines
+        animationsManager = ColumnAnimationsManager(MagnifyAnimator.createAnimators(
+                pointGridManager.getNumRows(),
+                pointGridManager.getNumCols(),
+                drawManager = pointGridManager
+        ), pointGridManager, this::useHardwareViewLayer)
+        animationsManager.postAnimation = this::postAnimation
         invalidate()
+    }
+
+    fun useHardwareViewLayer(useHardware: Boolean) {
+        if (useHardware) setLayerType(LAYER_TYPE_HARDWARE, null) else setLayerType(LAYER_TYPE_NONE, null)
     }
 
     private fun postAnimation(animation: () -> Unit) {
