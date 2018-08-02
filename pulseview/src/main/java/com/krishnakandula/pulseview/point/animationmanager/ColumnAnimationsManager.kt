@@ -10,6 +10,7 @@ class ColumnAnimationsManager(pointAnimators: List<List<PointAnimator>>) : Point
 
     private var animation: AnimatorSet? = null
     private val colIsAnimating: Array<Boolean> by lazy { Array(drawManager.getNumCols()) { false } }
+    private var repeat = true
 
     // Will start all animations
     override fun startAnimations(period: Long, delay: Long, pulse: Pulse) {
@@ -17,8 +18,6 @@ class ColumnAnimationsManager(pointAnimators: List<List<PointAnimator>>) : Point
     }
 
     fun startAnimations(period: Long, delay: Long, pulse: Pulse, startCol: Int, endCol: Int) {
-        stopAllAnimations()
-
         var start = Math.max(0, Math.min(startCol, drawManager.getNumCols() - 1))
         var end = Math.max(0, Math.min(endCol, drawManager.getNumCols() - 1))
         var reverse = end < start
@@ -53,7 +52,11 @@ class ColumnAnimationsManager(pointAnimators: List<List<PointAnimator>>) : Point
         animation?.startDelay = delay
         animation?.addListener(object : SimpleAnimationListener() {
             override fun onAnimationEnd(p0: Animator?) {
-                useHardwareViewLayer(false)
+                if (repeat) {
+                    animation?.start()
+                } else {
+                    useHardwareViewLayer(false)
+                }
             }
 
             override fun onAnimationStart(p0: Animator?) {
@@ -61,9 +64,11 @@ class ColumnAnimationsManager(pointAnimators: List<List<PointAnimator>>) : Point
             }
         })
         animation?.start()
+        repeat = true
     }
 
     override fun stopAllAnimations() {
+        repeat = false
         animation?.end()
     }
 

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val sheet = Pulse(pulseView.getVerticalLines(), pulseView.getHorizontalLines())
         sheet.taps.forEachIndexed { index, row ->
             row.forEachIndexed { colIndex, _ ->
-                sheet.taps[index][colIndex] = true
+                sheet.taps[index][colIndex] = false
 //                sheet.taps[index][colIndex] = (Math.random() * 1).roundToInt() == 1
             }
         }
