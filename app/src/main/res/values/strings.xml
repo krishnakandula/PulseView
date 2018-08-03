@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PulseViewSample</string>
+
+    <string-array name="animation_managers">
+        <item>Pulse</item>
+        <item>Column</item>
+    </string-array>
 </resources>

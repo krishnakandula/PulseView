@@ -13,7 +13,7 @@ import com.krishnakandula.pulseview.background.BackgroundDrawManager
 import com.krishnakandula.pulseview.grid.Grid
 import com.krishnakandula.pulseview.grid.GridDrawManager
 import com.krishnakandula.pulseview.point.*
-import com.krishnakandula.pulseview.point.animationmanager.PointAnimationsManager
+import com.krishnakandula.pulseview.point.animationmanager.AnimationsManager
 
 class PulseView(context: Context,
                 attrs: AttributeSet?,
@@ -27,7 +27,7 @@ class PulseView(context: Context,
     private val gridManager = GridDrawManager(Grid.from(typedAttrs))
     private val pointGridManager = PointGridDrawManager(PointGrid.from(typedAttrs), this::invalidate)
     private var pulse: Pulse = Pulse(gridManager.grid.verticalLines, gridManager.grid.horizontalLines)
-    private lateinit var animationsManager: PointAnimationsManager
+    private lateinit var animationsManager: AnimationsManager
 
     companion object {
         private val LOG_TAG = PulseView::class.simpleName
@@ -37,7 +37,7 @@ class PulseView(context: Context,
 
     fun getHorizontalLines(): Int = gridManager.grid.horizontalLines
 
-    fun setAnimationsManager(animationsManager: PointAnimationsManager) {
+    fun setAnimationsManager(animationsManager: AnimationsManager) {
         // TODO: Check that pointAnimators are of the right size
         animationsManager.drawManager = pointGridManager
         animationsManager.postAnimation = this::postAnimation
@@ -45,7 +45,7 @@ class PulseView(context: Context,
         this.animationsManager = animationsManager
     }
 
-    fun getAnimationsManager(): PointAnimationsManager? = if (this::animationsManager.isInitialized) animationsManager else null
+    fun getAnimationsManager(): AnimationsManager? = if (this::animationsManager.isInitialized) animationsManager else null
 
     // This must be called
     // this::setAnimationsManager must be called after data is set

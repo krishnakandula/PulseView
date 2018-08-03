@@ -6,7 +6,7 @@ import com.krishnakandula.pulseview.Pulse
 import com.krishnakandula.pulseview.point.pointanimator.PointAnimator
 import com.krishnakandula.pulseview.util.SimpleAnimationListener
 
-class PulseAnimationsManager(pointAnimators: List<List<PointAnimator>>) : PointAnimationsManager(pointAnimators) {
+class PulseAnimationsManager(pointAnimators: List<List<PointAnimator>>) : AnimationsManager(pointAnimators) {
 
     private var animation: AnimatorSet? = null
     private val pointIsAnimating: Array<Array<Boolean>> by lazy {
